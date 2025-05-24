@@ -22,7 +22,7 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit More editing this for pull to merge to main<code>src/App.jsx</code> and save to test HMR
+          I want to push this to main branch<code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
       <p className="read-the-docs">
