@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import IngredientInput from './components/IngredientInput';
+import './App.css';
+import fridgeLogo from './assets/fridge_rescue.png';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async (ingredients) => {
+    try {
+      setLoading(true);
+      setError(null);
+      /*fetch api and display results*/
+    } catch (err) {
+      setError('Failed to fetch recipes. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <div className="fridgeLogoimg">
+        <img src={fridgeLogo} alt="Fridge Rescue" />
       </div>
-     
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit More <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <p className="app-description">
+        Reduce food waste by finding recipes with ingredients you already have!
       </p>
-    </>
-  )
+      
+      <IngredientInput onSearch={handleSearch} />
+      
+      {loading && <div className="loading">Loading...</div>}
+      {error && <div className="error">{error}</div>}
+    </div>
+  );
 }
 
-export default App
+export default App;
