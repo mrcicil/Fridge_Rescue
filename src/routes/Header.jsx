@@ -2,6 +2,7 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import fridgeLogo from '../assets/fridge_rescue.png';
 
 
 const navigation = [
@@ -22,11 +23,14 @@ function Header(){
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                alt=""
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+              {/* <img
+                alt={fridgeLogo}
+                src=""
                 className="h-8 w-auto"
-              />
+              /> */}
+               
+                      <img className="h-8 w-auto" src={fridgeLogo} alt="Fridge Rescue" />
+                    
             </a>
           </div>
           <div className="flex lg:hidden">
