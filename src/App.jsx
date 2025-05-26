@@ -9,7 +9,7 @@ import Homepage from './routes/Homepage'
 import Login from './routes/Login'
 import Company from './routes/Company'
 import Header from './routes/Header'
-
+import Search from './routes/Search'
 
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
       <Route path='Homepage' element={<Homepage/>}/>
       <Route path='login' element={<Login></Login>}/>
       <Route path='company' element={<Company></Company>}/>
+      <Route path='search' element={<Search></Search>}/>
 
     
       </Route>
