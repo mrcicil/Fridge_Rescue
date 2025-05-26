@@ -21,7 +21,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
+        <p className="text-3xl font-bold underline">
           I want to push this to main branch<code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
