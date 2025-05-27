@@ -10,14 +10,18 @@ import Login from './routes/Login'
 import Company from './routes/Company'
 import Header from './routes/Header'
 import Search from './routes/Search'
+import { AuthProvider } from './context/Authcontext'
 
 
 function App() {
 
 
   return (
+    
     <BrowserRouter>
+    <AuthProvider>
     <Routes>
+ 
       <Route path='/' element={<Header/>}>
 
       <Route path='Homepage' element={<Homepage/>}/>
@@ -25,12 +29,13 @@ function App() {
       <Route path='company' element={<Company></Company>}/>
       <Route path='search' element={<Search></Search>}/>
 
-    
       </Route>
+     
     </Routes>
 
-
+    </AuthProvider>
     </BrowserRouter>
+   
     
   )
 }
