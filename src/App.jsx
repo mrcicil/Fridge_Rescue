@@ -11,6 +11,9 @@ import Company from './routes/Company'
 import Header from './routes/Header'
 import Search from './routes/Search'
 import Result from './routes/result'
+// import RecipeDetail from './routes/RecipeDetail'
+
+
 import { AuthProvider } from './context/Authcontext'
 
 
@@ -30,6 +33,7 @@ function App() {
       <Route path='company' element={<Company></Company>}/>
       <Route path='search' element={<Search/>}/>
       <Route path='result' element={<Result/>}/>
+      {/* <Route path='recipedetail' element={<RecipeDetail/>}/> */}
         
 
       </Route>
