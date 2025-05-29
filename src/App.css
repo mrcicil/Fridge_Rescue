@@ -27,10 +27,51 @@
   color: #666;
 }
 
+<<<<<<< HEAD
+=======
+.read-the-docs {
+  color: #888;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.fridgeLogoimg {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.fridgeLogoimg img {
+  width: 200px;
+  height: auto;
+}
+
+.app-description {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 20px 0;
+}
+
+.loading {
+  margin: 20px 0;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+>>>>>>> main
 .error {
   color: #dc3545;
   margin: 20px 0;
   padding: 10px;
   border-radius: 4px;
   background-color: #f8d7da;
+<<<<<<< HEAD
 }
+=======
+}
+@import "tailwindcss";
+>>>>>>> main
