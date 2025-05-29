@@ -4,6 +4,7 @@ import { useState, useContext } from 'react'
 import { Outlet } from 'react-router-dom'
 import fridgeLogo from '../assets/fridge_rescue.png';
 import AuthContext from '../context/Authcontext';
+import { Link } from 'react-router-dom';
 
 
 
@@ -62,10 +63,6 @@ function Header(){
               <a key={item.name} href={item.href} className="text-sm/6 font-semibold text-gray-900">
                 {item.name}
               </a>
-          
-          
-              
-              
             ))}
 
           

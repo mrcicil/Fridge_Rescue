@@ -21,17 +21,17 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
-      <Header />
+      {/* <Header /> */}
     <Routes>
  
-      {/* <Route path='/' element={<Header/>}> */}
+      <Route path='/' element={<Header/>}>
 
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/company' element={<Company></Company>}/>
       <Route path='/search' element={<Search></Search>}/>
 
-      {/* </Route> */}
+      </Route>
      
     </Routes>
   
