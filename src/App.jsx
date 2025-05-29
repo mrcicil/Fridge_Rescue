@@ -13,6 +13,7 @@ import Search from './routes/Search'
 import { AuthProvider } from './context/Authcontext'
 
 
+
 function App() {
 
 
@@ -20,18 +21,20 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
+      <Header />
     <Routes>
  
-      <Route path='/' element={<Header/>}>
+      {/* <Route path='/' element={<Header/>}> */}
 
-      <Route path='Homepage' element={<Homepage/>}/>
-      <Route path='login' element={<Login></Login>}/>
-      <Route path='company' element={<Company></Company>}/>
-      <Route path='search' element={<Search></Search>}/>
+      <Route path='/homepage' element={<Homepage/>}/>
+      <Route path='/login' element={<Login></Login>}/>
+      <Route path='/company' element={<Company></Company>}/>
+      <Route path='/search' element={<Search></Search>}/>
 
-      </Route>
+      {/* </Route> */}
      
     </Routes>
+  
 
     </AuthProvider>
     </BrowserRouter>
