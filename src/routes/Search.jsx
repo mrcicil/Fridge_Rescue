@@ -1,3 +1,4 @@
+
 import fridgeLogo from "../assets/fridge_rescue.png";
 import "../App.css";
 import { useState } from "react";
@@ -5,9 +6,11 @@ import IngredientInput from "../components/IngredientInput";
 
 import { recipe_detail } from "../search_result";
 import { recipe_detail_data } from "../recipe_detail_data";
+import { findRecipesByIngredients, getRecipeInstructions }from '../api/recipesapi';
 
 function Search() {
   const [error, setError] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const [isIngredientsSubmitted, setIsIngredientsSubmitted] = useState(false);
@@ -22,6 +25,7 @@ function Search() {
       setLoading(true);
       setError(null);
       /*fetch api and display results*/
+
       // Mocked data
 
       // Extract only id and title
@@ -33,6 +37,10 @@ function Search() {
       setSimplifiedRecipes(simplifiedRecipes);
 
       console.log("simplifiedRecipes", simplifiedRecipes);
+
+      // const results = await findRecipesByIngredients(ingredients);
+      // const receiptitem1 = await getRecipeInstructions(665734);
+
     } catch (err) {
       setIsIngredientsSubmitted(false);
       setError("Failed to fetch recipes. Please try again.");
