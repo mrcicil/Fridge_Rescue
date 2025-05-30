@@ -1,5 +1,4 @@
 import React from 'react';
-import { recipe_detail } from '../search_result.js';
 
 const RecipeCard = ({ recipe }) => {
   return (
@@ -61,17 +60,41 @@ const RecipeCard = ({ recipe }) => {
   );
 };
 
-const RecipeSearchResults = () => {
+
+const RecipeSearchResults = ({ recipes = [] }) => {
+  // Handle loading state
+  if (!recipes) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-gray-600">Loading recipes...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle empty results
+  if (recipes.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">No Recipes Found</h1>
+          <p className="text-gray-600">Try searching with different ingredients</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Recipe Search Results</h1>
-          <p className="text-gray-600">Found {recipe_detail.length} delicious recipes with your ingredients</p>
+          <p className="text-gray-600">Found {recipes.length} delicious recipes with your ingredients</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {recipe_detail.map((recipe) => (
+          {recipes.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
         </div>
