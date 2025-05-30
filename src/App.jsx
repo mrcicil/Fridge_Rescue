@@ -11,7 +11,6 @@ import Company from './routes/Company'
 import Header from './routes/Header'
 import Search from './routes/Search'
 import Result from './routes/result'
-// import RecipeDetail from './routes/RecipeDetail'
 
 
 import { AuthProvider } from './context/Authcontext'
@@ -33,8 +32,10 @@ function App() {
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/company' element={<Company></Company>}/>
-      <Route path='/search' element={<Search></Search>}/>
-       <Route path='result' element={<Result/>}/>
+      <Route path='/search' element={<Search />}/>
+      
+      {/* TRISHA - Changed this route path so that clicking on result card leads to Caleb's detail page */}
+      <Route path="/recipe/:id" element={<Result />} />
 
 
       </Route>
