@@ -1,8 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RecipeCard = ({ recipe }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = () => {
+    // Navigate to recipe detail page with the recipe ID
+    navigate(`/recipe/${recipe.id}`);
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105">
+    <div 
+      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer"
+      onClick={handleCardClick}
+    >
       {/* Recipe Image */}
       <div className="relative h-48 overflow-hidden">
         <img 
@@ -55,11 +66,15 @@ const RecipeCard = ({ recipe }) => {
             </div>
           </div>
         )}
+
+        {/* Visual indicator that it's clickable */}
+        <div className="mt-4 text-center">
+          <span className="text-blue-600 text-sm font-medium">View instructions →</span>
+        </div>
       </div>
     </div>
   );
 };
-
 
 const RecipeSearchResults = ({ recipes = [] }) => {
   // Handle loading state
@@ -91,6 +106,7 @@ const RecipeSearchResults = ({ recipes = [] }) => {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Recipe Search Results</h1>
           <p className="text-gray-600">Found {recipes.length} delicious recipes with your ingredients</p>
+          <p className="text-gray-500 text-sm mt-2">Click on any recipe to view detailed instructions</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
