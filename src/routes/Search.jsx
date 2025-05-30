@@ -3,6 +3,7 @@ import fridgeLogo from "../assets/fridge_rescue.png";
 import "../App.css";
 import { useState } from "react";
 import IngredientInput from "../components/IngredientInput";
+import RecipeSearchResults from '../components/SearchResults';
 
 import { recipe_detail } from "../search_result";
 import { recipe_detail_data } from "../recipe_detail_data";
@@ -17,6 +18,9 @@ function Search() {
 
   const [simplifiedRecipes, setSimplifiedRecipes] = useState([]); // Add state for simp
 
+  //state for showing result on button press (trisha) -  to be updated after API integration
+  const [showResults, setShowResults] = useState(false);
+
   const handleSearch = async (ingredients) => {
     try {
       //
@@ -24,19 +28,11 @@ function Search() {
 
       setLoading(true);
       setError(null);
+      
+      // update state for results module (trisha) - to be updated for API Integration
+      setShowResults(true);
+
       /*fetch api and display results*/
-
-      // Mocked data
-
-      // Extract only id and title
-      const simplifiedRecipes = recipe_detail.map((recipe) => ({
-        id: recipe.id,
-        title: recipe.title,
-      }));
-
-      setSimplifiedRecipes(simplifiedRecipes);
-
-      console.log("simplifiedRecipes", simplifiedRecipes);
 
       // const results = await findRecipesByIngredients(ingredients);
       // const receiptitem1 = await getRecipeInstructions(665734);
@@ -60,6 +56,15 @@ function Search() {
 
       <IngredientInput onSearch={handleSearch} />
 
+      {/* Only show results after search button is pressed */}
+      {showResults && (
+        <div>
+          <RecipeSearchResults />
+        </div>
+      )}
+
+      
+
       {loading && <div className="loading">Loading...</div>}
       {error && <div className="error">{error}</div>}
 
@@ -70,19 +75,6 @@ function Search() {
 
       {/* Try to do mock data first */}
 
-      {isIngredientsSubmitted && (
-        <>
-          <h2>Recipes</h2>
-          <ul>
-            {simplifiedRecipes.map((recipe) => (
-              <li key={recipe.id}>
-                {/* {recipe.title} (ID: {recipe.id}) */}
-                {recipe.title}
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
     </div>
   );
 }
