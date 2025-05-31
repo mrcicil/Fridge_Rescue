@@ -6,8 +6,6 @@ import fridgeLogo from '../assets/fridge_rescue.png';
 import AuthContext from '../context/Authcontext';
 import { Link } from 'react-router-dom';
 
-
-
 function Header(){
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { user, logout } = useContext(AuthContext);
@@ -60,9 +58,9 @@ function Header(){
           </div>
           <div className="hidden lg:flex lg:gap-x-12 ">
           {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm/6 font-semibold text-gray-900">
+              <Link key={item.name} to={item.href} className="text-sm/6 font-semibold text-gray-900">
                 {item.name}
-              </a>
+              </Link>
             ))}
 
           
@@ -70,9 +68,9 @@ function Header(){
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {user? (<a href="#" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
               Log out<span aria-hidden="true">&rarr;</span>
-            </a>) : (<a href="/login" className="text-sm/6 font-semibold text-gray-900">
+            </a>) : (<Link to="/login" className="text-sm/6 font-semibold text-gray-900">
               Log in<span aria-hidden="true">&rarr;</span>
-            </a>)}
+            </Link>)}
             
           </div>
         </nav>
@@ -97,9 +95,9 @@ function Header(){
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                  {navigation.map((item) => (
-              <a key={item.name} href={item.href} className="text-sm/6 font-semibold text-gray-900">
+             <Link key={item.name} to={item.href} className="text-sm/6 font-semibold text-gray-900">
                 {item.name}
-              </a>
+              </Link>
          
               
             ))}
