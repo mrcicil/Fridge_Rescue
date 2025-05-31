@@ -19,6 +19,7 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         {/* <Header /> */}
+        <SearchContext.Provider value={sharedState}>
         <Routes>
           <Route path="/" element={<Header />}>
             <Route path="/homepage" element={<Homepage />} />
@@ -33,6 +34,7 @@ function App() {
 
           </Route>
         </Routes>
+        </SearchContext.Provider>
       </AuthProvider>
     </BrowserRouter>
   );
