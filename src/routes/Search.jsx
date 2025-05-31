@@ -1,9 +1,11 @@
 import fridgeLogo from "../assets/fridge_rescue.png";
 import "../App.css";
-import { useState } from "react";
+import { useState, createContext, useContext } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
 import { findRecipesByIngredients, getRecipeInstructions } from '../api/recipesapi';
+
+const SearchContext = createContext();
 
 function Search() {
   const [error, setError] = useState(null);
@@ -58,6 +60,9 @@ function Search() {
           <RecipeSearchResults recipes={recipes} />
         </div>
       )}
+
+      {/* show recipe details in light windows after user click on it */}
+      {showResults}
     </div>
   );
 }
