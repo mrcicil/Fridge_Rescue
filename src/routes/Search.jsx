@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-import fridgeLogo from '../assets/fridge_rescue.png';
-import '../App.css';
-import { useState } from 'react';
-import { findRecipesByIngredients, getRecipeInstructions }from '../api/recipesapi';
-import IngredientInput from '../components/IngredientInput';
-=======
 import fridgeLogo from "../assets/fridge_rescue.png";
 import "../App.css";
 import { useState } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
 import { findRecipesByIngredients, getRecipeInstructions } from '../api/recipesapi';
->>>>>>> main
 
 function Search() {
   const [error, setError] = useState(null);
@@ -23,11 +15,6 @@ function Search() {
     try {
       setLoading(true);
       setError(null);
-<<<<<<< HEAD
-      /*fetch api and display results*/
-      const results = await findRecipesByIngredients(ingredients);
-      const receiptitem1 = await getRecipeInstructions(665734);      
-=======
       setShowResults(false); // Hide previous results while loading
       
       // Fetch recipes from API
@@ -39,7 +26,6 @@ function Search() {
       // Show results
       setShowResults(true);
       
->>>>>>> main
     } catch (err) {
       setError("Failed to fetch recipes. Please try again.");
       setShowResults(false);
