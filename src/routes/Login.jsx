@@ -1,6 +1,21 @@
 import fridgeLogo from '../assets/fridge_rescue.png';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/Authcontext';
+import { useContext } from 'react';
 
 function Login(){
+  const [username, setUsername] = useState();
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+
+    login({ username });
+    navigate("/search");
+  };
+
     return(
         <>
       <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
@@ -12,18 +27,19 @@ function Login(){
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} method="POST" className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Email address
+              <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+                Username
               </label>
               <div className="mt-2">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
+                  id="username"
+                  name="username"
+                  type="username"
                   required
-                  autoComplete="email"
+                  autoComplete="username"
+                  onChange={(e) => setUsername(e.target.value)}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>

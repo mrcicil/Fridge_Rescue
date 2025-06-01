@@ -10,7 +10,11 @@ import Login from './routes/Login'
 import Company from './routes/Company'
 import Header from './routes/Header'
 import Search from './routes/Search'
+import Result from './routes/result'
+
+
 import { AuthProvider } from './context/Authcontext'
+
 
 
 function App() {
@@ -20,18 +24,24 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
+      {/* <Header /> */}
     <Routes>
  
       <Route path='/' element={<Header/>}>
 
-      <Route path='Homepage' element={<Homepage/>}/>
-      <Route path='login' element={<Login></Login>}/>
-      <Route path='company' element={<Company></Company>}/>
-      <Route path='search' element={<Search></Search>}/>
+      <Route path='/homepage' element={<Homepage/>}/>
+      <Route path='/login' element={<Login></Login>}/>
+      <Route path='/company' element={<Company></Company>}/>
+      <Route path='/search' element={<Search />}/>
+      
+      {/* TRISHA - Changed this route path so that clicking on result card leads to Caleb's detail page */}
+      <Route path="/recipe/:id" element={<Result />} />
+
 
       </Route>
      
     </Routes>
+  
 
     </AuthProvider>
     </BrowserRouter>
