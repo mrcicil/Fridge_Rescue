@@ -107,7 +107,7 @@ function Homepage() {
           to="/company" 
           className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
         >
-          Meet Our Team →
+          Meet Our Team
         </Link>
       </section>
     </div>
