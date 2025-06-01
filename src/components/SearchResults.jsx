@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './SearchResults.module.css';
 
 const RecipeCard = ({ recipe }) => {
   const navigate = useNavigate();

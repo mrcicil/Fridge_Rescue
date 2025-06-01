@@ -1,6 +1,6 @@
 import fridgeLogo from '../assets/fridge_rescue.png';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link  } from 'react-router-dom';
 import AuthContext from '../context/Authcontext';
 import { useContext } from 'react';
 
@@ -16,69 +16,93 @@ const handleSubmit = (e) => {
     navigate("/search");
   };
 
-    return(
-        <>
-      <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="w-20 h-20" src={fridgeLogo} alt="Fridge Rescue" />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
+return (
+    <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
+      <div className="max-w-3xl mx-auto pt-20 pb-16"> 
+        {/* Card Container */}
+        <div className="bg-white rounded-2xl shadow-lg p-12">
+          {/* Logo Section */}
+          <div className="text-center mb-12">
+            <img 
+              src={fridgeLogo} 
+              alt="Fridge Rescue" 
+              className="w-32 h-32 mx-auto mb-8 animate-float"
+            />
+            <h2 className="text-4xl font-bold text-recipe-800 mb-3">
+              Welcome Back
+            </h2>
+            <p className="text-recipe-600">
+              Sign in to start finding recipes
+            </p>
+          </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSubmit} method="POST" className="space-y-6">
+          {/* Form Section */}
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Username Field */}
             <div>
-              <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
+              <label 
+                htmlFor="username" 
+                className="block text-lg font-medium text-recipe-700 mb-2"
+              >
                 Username
               </label>
-              <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="username"
-                  required
-                  autoComplete="username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                autoComplete="username"
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-6 py-4 text-lg border border-recipe-200 
+                          focus:ring-2 focus:ring-recipe-500 focus:border-recipe-500
+                          transition-colors duration-200 bg-white text-recipe-800
+                          placeholder-recipe-400"
+                placeholder="Enter your username"
+              />
             </div>
 
+            {/* Password Field */}
             <div>
-         
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Password
-                </label>
-              
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
+              <label 
+                htmlFor="password" 
+                className="block text-lg font-medium text-recipe-700 mb-2"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                className="w-full px-6 py-4 text-lg border border-recipe-200 
+                          focus:ring-2 focus:ring-recipe-500 focus:border-recipe-500
+                          transition-colors duration-200 bg-white text-recipe-800
+                          placeholder-recipe-400"
+                placeholder="Enter your password"
+              />
             </div>
 
-            <div className='bg-sky-400'>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md hover:bg-indigo-500"
-              >
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold 
+                         transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
+            >
+              Sign In
+            </button>
 
-                Sign in
-              </button>
+            {/* Additional Links */}
+            <div className="mt-6 text-center space-y-4">
+              <Link to="/homepage" className="block text-recipe-500 hover:text-recipe-600 font-medium">
+                ← Back to Home
+              </Link>
             </div>
           </form>
-
-        
         </div>
       </div>
-    </>
-    )
+    </div>
+  );
 }
 
 export default Login;
