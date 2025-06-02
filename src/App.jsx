@@ -14,6 +14,7 @@ import Result from './routes/result'
 
 
 import { AuthProvider } from './context/Authcontext'
+import { RecipeProvider } from './context/RecipeContext'
 
 
 
@@ -24,6 +25,7 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
+    <RecipeProvider>
       {/* <Header /> */}
     <Routes>
  
@@ -43,7 +45,7 @@ function App() {
      
     </Routes>
   
-
+    </RecipeProvider>
     </AuthProvider>
     </BrowserRouter>
    

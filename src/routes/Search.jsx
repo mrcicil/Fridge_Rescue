@@ -3,12 +3,15 @@ import { useState } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
 import { findRecipesByIngredients } from '../api/recipesapi';
+import { useRecipeContext } from '../context/RecipeContext';
 
 function Search() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [recipes, setRecipes] = useState([]);
   const [showResults, setShowResults] = useState(false);
+
+    // Use context instead of local state for recipes
+  const { searchResults, updateSearchResults } = useRecipeContext();
 
   const handleSearch = async (ingredients) => {
     try {
@@ -17,7 +20,7 @@ function Search() {
       setShowResults(false);
       
       const results = await findRecipesByIngredients(ingredients);
-      setRecipes(results);
+      updateSearchResults(results, ingredients);
       setShowResults(true);
       
     } catch (err) {
@@ -65,7 +68,7 @@ function Search() {
         {/* Results */}
         {showResults && !loading && (
           <div className="mt-8">
-            <RecipeSearchResults recipes={recipes} />
+            <RecipeSearchResults recipes={searchResults} />
           </div>
         )}
       </div>

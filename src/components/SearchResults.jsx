@@ -1,11 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchResults.module.css';
+import { useRecipeContext } from '../context/RecipeContext';
+
 
 const RecipeCard = ({ recipe }) => {
   const navigate = useNavigate();
+  const { selectRecipe } = useRecipeContext();
 
   const handleCardClick = () => {
+    // Store the selected recipe in context
+    selectRecipe(recipe.id);
     // Navigate to recipe detail page with the recipe ID
     navigate(`/recipe/${recipe.id}`);
   };
