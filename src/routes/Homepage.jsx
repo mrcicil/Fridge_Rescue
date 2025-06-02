@@ -26,13 +26,20 @@ function Homepage() {
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
             Stop wasting food! Input what's in your fridge, and we'll suggest delicious recipes tailored just for you.
           </p>
-          
-          <Link 
+
+          {!!localStorage.getItem("userToken")? <Link 
+            to="/search" 
+            className="inline-block bg-gray-600 !text-white px-8 py-3.5 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
+          >
+            Get Started Now
+          </Link> : <Link 
             to="/login" 
             className="inline-block bg-gray-600 !text-white px-8 py-3.5 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
           >
             Get Started Now
-          </Link>
+          </Link>}
+          
+         
         </div>
       </section>
 
