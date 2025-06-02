@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Homepage from './routes/Homepage'
 import Login from './routes/Login'
 import Company from './routes/Company'
@@ -28,7 +28,8 @@ function App() {
     <Routes>
  
       <Route path='/' element={<Header/>}>
-
+       {/* Add redirect from root to homepage */}
+      <Route index element={<Navigate to="/homepage" replace />} />
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/company' element={<Company></Company>}/>

@@ -1,0 +1,33 @@
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.recipe-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.recipe-image {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.recipe-info {
+  padding: 1.5rem;
+}
+
+.ingredient-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  margin: 0.25rem;
+  background: var(--light);
+  color: var(--text-secondary);
+}

@@ -1,74 +1,117 @@
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
+import { Link } from 'react-router-dom';
+import fridgeLogo from "../assets/fridge_rescue.png";
+import foodWasteImage from "../assets/food_waste.png"; // Add this image to your assets
+import cookingImage from "../assets/cooking.jpg"; // Add this image to your assets
 
-
-
-function Homepage(){
-   
-
-    return(
-        <div className="bg-white">
-
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        >
-          <div
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-            className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
+function Homepage() {
+  return (
+    <div className="max-w-7xl mx-auto px-5">
+      {/* Hero Section */}
+      <section className="py-10 text-center mb-10">
+        <div className="mb-6">
+          <img
+            src={fridgeLogo}
+            alt="Fridge Rescue"
+            className="w-32 h-auto mx-auto"
           />
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-              Announcing our new feature.{' '}
-              <a href="#" className="font-semibold text-indigo-600">
-                <span aria-hidden="true" className="absolute inset-0" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
-          <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
-              Recipes cater to any ingredient available
-            </h1>
-            <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
-              Transform your kitchen leftovers into culinary delights—simply input your ingredients, and let our AI craft personalized recipes just for you.
+
+        <div className="max-w-3xl mx-auto">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 leading-tight">
+            Turn Your Leftovers into Culinary Magic
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+            Stop wasting food! Input what's in your fridge, and we'll suggest delicious recipes tailored just for you.
+          </p>
+          
+          <Link 
+            to="/login" 
+            className="inline-block bg-gray-600 !text-white px-8 py-3.5 rounded-lg font-semibold text-lg transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
+          >
+            Get Started Now
+          </Link>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="py-10 bg-gray-50 rounded-2xl mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 px-5">
+          {/* Left Column */}
+          <div className="flex flex-col">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+              Why Fridge Rescue?
+            </h2>
+            <p className="text-gray-600 mb-4 leading-relaxed text-left">
+              Did you know that approximately one-third of all food produced globally goes to waste? That's about 1.3 billion tonnes per year!
             </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="#"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Get started
-              </a>
-              <a href="#" className="text-sm/6 font-semibold text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+            <p className="text-gray-600 mb-4 leading-relaxed text-left">
+              Our mission is to help home cooks like you reduce food waste by making the most of what's already in your fridge.
+            </p>
+            <div className="mt-6 text-center">
+              <img
+                src={foodWasteImage}
+                alt="Food waste illustration"
+                className="max-w-full h-auto rounded-xl shadow-md mx-auto"
+              />
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="flex flex-col">
+            <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+              How It Works
+            </h3>
+            <div className="space-y-3">
+              <div className="flex items-center">
+                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                  1
+                </span>
+                <p className="text-gray-600">Input ingredients you have in your fridge</p>
+              </div>
+              <div className="flex items-center">
+                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                  2
+                </span>
+                <p className="text-gray-600">Get instant recipe suggestions</p>
+              </div>
+              <div className="flex items-center">
+                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                  3
+                </span>
+                <p className="text-gray-600">Cook delicious meals and reduce waste!</p>
+              </div>
+            </div>
+            <div className="mt-6 text-center">
+              <img
+                src={cookingImage}
+                alt="Cooking illustration"
+                className="max-w-full h-auto rounded-xl shadow-md mx-auto"
+              />
             </div>
           </div>
         </div>
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        >
-          <div
-            style={{
-              clipPath:
-                'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-            }}
-            className="relative left-[calc(50%+3rem)] aspect-1155/678 w-144.5 -translate-x-1/2 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-288.75"
-          />
-        </div>
-      </div>
-    </div>
-    );
+      </section>
 
+      {/* Team Section */}
+      <section className="text-center py-10 max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+          Meet the Team Behind Fridge Rescue
+        </h2>
+        <p className="text-gray-600 mb-8 text-center">
+          We're passionate about reducing food waste and making cooking easier for everyone.
+        </p>
+        <Link 
+          to="/company" 
+          className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
+        >
+          Meet Our Team →
+        </Link>
+      </section>
+    </div>
+  );
 }
 
 export default Homepage;
