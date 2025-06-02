@@ -5,10 +5,7 @@ import styles from "./Result.module.css"; // Import CSS Module
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-import {
-  getRecipeInstructions,
-  getRecipeInstructionsMock,
-} from "../api/recipesapi";
+import { getRecipeInstructions, getRecipeInstructionsMock } from "../api/recipesapi";
 
 function Result({}) {
   const { id } = useParams();
@@ -31,8 +28,6 @@ function Result({}) {
 
     try {
       const results = await getRecipeInstructions(id);
-
-      console.log("results from Result.jsx", results);
 
       if (results?.length) {
         setRecipeInstructions(results);
@@ -60,12 +55,13 @@ function Result({}) {
       const resultsRaw = getRecipeInstructionsMock();
       //const results = recipe_detail_data;
 
+
       console.log("results from Result.jsx", resultsRaw);
       //console.log("JSON.stringify(results[0])", JSON.stringify(results[0]));
 
-      //const results = JSON.stringify(resultsRaw[0]);
-      const results = resultsRaw;
+      const results = JSON.stringify(resultsRaw[0]);
       console.log("results after JSON", results);
+
 
       if (results?.length) {
         setRecipeInstructions(results);
@@ -86,8 +82,8 @@ function Result({}) {
   // }, [id]);
 
   useEffect(() => {
-    fetchMockData();
-    //fetchData();
+    //fetchMockData();
+    fetchData();
   }, [id]);
 
   // Fetch recipes from API
@@ -160,127 +156,118 @@ function Result({}) {
   //   </div>
   // );
 
-return (
+  return (
   <div className="min-h-dvh md:flex justify-center items-center md:bg-eggshell">
-    <article className="bg-white p-6 md:my-20 md:rounded-xl md:max-w-screen-md shadow-lg relative">
-      {/* Back button inside the recipe box with proper spacing */}
-      {/* Header with back button and title */}
-      <div className="flex items-center mb-6 relative"> {/* Container for header */}
-        <button 
-          onClick={() => navigate(-1)} // Go back one page in history
-          className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors mr-2"
+    <article className="bg-white p-6 md:my-20 md:rounded-xl md:max-w-screen-md shadow-lg">
+      {/* Back button */}
+      <button
+        onClick={() => navigate.goBack()}
+        className="fixed top-4 left-4 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-        </button>
-
-      {/* Recipe Title */}
-      {/* <div className="text-center mb-4"> */}
-        <h1 className="text-3xl font-bold text-black font-outfit flex-1 text-center">
-          {recipeData.title}
-        </h1>
-      </div>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+      </button>
 
       {/* Recipe Image */}
+                {/* src="https://images.unsplash.com/photo-1616031037011-087000171abe" */}
       <picture>
         <img
           className="max-w-sm mx-auto my-4 rounded-lg shadow"
+
           src={recipeData.image}
-          alt={recipeData.title}
+          alt="Recipe"
         />
       </picture>
 
-      {/* Required Ingredients Section */}
-      <div className="font-outfit text-left">
-        <h2 className="text-xl font-semibold mb-2 text-black">Required Ingredients</h2>
-        
-        {/* Used Ingredients (what you have) */}
-        {recipeData.usedIngredients.length > 0 && (
-          <div className="mb-4">
-            <h3 className="text-lg font-medium text-black">Ingredients You Have:</h3>
-            <ul className="list-disc pl-5 text-black space-y-1">
-              {recipeData.usedIngredients.map((ingredient, index) => (
-                <li key={`used-${index}`}>
-                  {ingredient.original}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
-        {/* Missed Ingredients (what you need) */}
-        {recipeData.missedIngredients.length > 0 && (
-          <div className="mb-4">
-            <h3 className="text-lg font-medium text-black">Ingredients You Need:</h3>
-            <ul className="list-disc pl-5 text-black space-y-1">
-              {recipeData.missedIngredients.map((ingredient, index) => (
-                <li key={`missed-${index}`}>
-                  {ingredient.original}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+
+      <div className="font-outfit">
+        <h1 className="text-2xl font-bold mb-4 text-black">
+          Recipe Instructions
+        </h1>
+
+        {/* Ingredients Section - Deduplicated */}
+        <div>
+          <h2 className="text-xl font-semibold mb-2 text-black">Ingredients</h2>
+          <ul className="list-disc list-inside mb-4 text-black">
+            {Array.from(
+              new Map(
+                recipeInstructions
+                  .flatMap(step => step.ingredients)
+                  .map(item => [item.id, item])
+              ).values()
+            ).map(ingredient => (
+              <li key={ingredient.id} className="mb-2">
+                {ingredient.name}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="w-full h-px bg-light-gray my-6"></div>
-          {/* Equipment Section - Left Aligned */}
-          <div className="text-left">
-            <h2 className="text-xl font-semibold mb-2 text-black">Equipment</h2>
-            <ul className="list-disc pl-5 mb-4 text-black space-y-1">
-              {Array.from(
-                new Map(
-                  recipeInstructions
-                    .flatMap((step) => step.equipment)
-                    .map((item) => [item.id, item])
-                ).values()
-              ).map((equipment) => (
-                <li key={equipment.id}>{equipment.name}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="w-full h-px bg-light-gray my-6"></div>
-          {/* Instructions Section - Left Aligned */}
-          <div className="text-left">
-            <h2 className="text-xl font-semibold mb-2 text-black">
-              Instructions
-            </h2>
-            <ol className="list-decimal pl-5 mb-6 text-black space-y-4">
-              {recipeInstructions.map((step) => (
-                <li key={step.number} className="pl-2">
-                  <div className="font-bold">Step {step.number}:</div>
-                  <p>{step.step}</p>
-                  {step.length && (
-                    <p className="text-sm text-gray-600">
-                      Duration: {step.length.number} {step.length.unit}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="w-full h-px bg-light-gray my-6"></div>
-          {/* Print button (unchanged) */}
-          <div className="text-center">
-            <button className="bg-black text-black px-4 py-2 rounded-lg hover:bg-gray-800">
-              Print Recipe
-            </button>
-          </div>
+
+        {/* Equipment Section - Added */}
+        <div>
+          <h2 className="text-xl font-semibold mb-2 text-black">Equipment</h2>
+          <ul className="list-disc list-inside mb-4 text-black">
+            {Array.from(
+              new Map(
+                recipeInstructions
+                  .flatMap(step => step.equipment)
+                  .map(item => [item.id, item])
+              ).values()
+            ).map(equipment => (
+              <li key={equipment.id} className="mb-2">
+                {equipment.name}
+              </li>
+            ))}
+          </ul>
         </div>
-      </article>
-    </div>
-  );
+
+        <div className="w-full h-px bg-light-gray my-6"></div>
+
+        {/* Instructions Section */}
+        <div>
+          <h2 className="text-xl font-semibold mb-2 text-black">Instructions</h2>
+          <ol className="list-decimal list-inside mb-6 text-black">
+            {recipeInstructions.map((step) => (
+              <li key={step.number} className="mb-4">
+                <div className="font-bold">Step {step.number}:</div>
+                <p>{step.step}</p>
+                {step.length && (
+                  <p className="text-sm text-black">
+                    Duration: {step.length.number} {step.length.unit}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="w-full h-px bg-light-gray my-6"></div>
+
+        {/* Print button */}
+        <div className="text-center">
+          <button className="bg-black text-black px-4 py-2 rounded-lg hover:bg-gray-800">
+            Print Recipe
+          </button>
+        </div>
+      </div>
+    </article>
+  </div>
+);
 }
 
 export default Result;

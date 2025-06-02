@@ -160,35 +160,17 @@ function Result({}) {
   //   </div>
   // );
 
-return (
-  <div className="min-h-dvh md:flex justify-center items-center md:bg-eggshell">
-    <article className="bg-white p-6 md:my-20 md:rounded-xl md:max-w-screen-md shadow-lg relative">
-      {/* Back button inside the recipe box with proper spacing */}
-      {/* Header with back button and title */}
-      <div className="flex items-center mb-6 relative"> {/* Container for header */}
-        <button 
-          onClick={() => navigate(-1)} // Go back one page in history
-          className="bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors mr-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-        </button>
+  return (
+    <div className="min-h-dvh md:flex justify-center items-center md:bg-eggshell">
+    <article className="bg-white p-6 md:my-20 md:rounded-xl md:max-w-screen-md shadow-lg">
+      {/* Back button */}
+      <button onClick={() => navigate.goBack()} className="fixed top-4 left-4 bg-white p-2 rounded-full shadow-md z-10 hover:bg-gray-100 transition-colors">
+        {/* Back button SVG */}
+      </button>
 
       {/* Recipe Title */}
-      {/* <div className="text-center mb-4"> */}
-        <h1 className="text-3xl font-bold text-black font-outfit flex-1 text-center">
+      <div className="text-center mb-4">
+        <h1 className="text-3xl font-bold text-black font-outfit">
           {recipeData.title}
         </h1>
       </div>

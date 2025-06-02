@@ -3,17 +3,11 @@ import "../App.css";
 import { useState, createContext, useContext } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
-import { findRecipesByIngredients, findRecipesByIngredientsMock, getRecipeInstructions } from '../api/recipesapi';
-
-import { useLocation  } from "react-router-dom";
-import { useEffect } from "react";
+import { findRecipesByIngredients, getRecipeInstructions } from '../api/recipesapi';
 
 const SearchContext = createContext();
 
 function Search() {
-
-const location = useLocation();
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState([]); // Store the fetched recipes
@@ -24,14 +18,9 @@ const location = useLocation();
       setLoading(true);
       setError(null);
       setShowResults(false); // Hide previous results while loading
-
-      // Fetch recipes from API
-      //const results = await findRecipesByIngredients(ingredients);
       
-      // Fetch recipes from Mock Data
-      const results =  findRecipesByIngredientsMock(ingredients);
-
-      console.log("results from Search.jsx", results);
+      // Fetch recipes from API
+      const results = await findRecipesByIngredients(ingredients);
       
       // Store results in state
       setRecipes(results);
@@ -47,14 +36,6 @@ const location = useLocation();
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-  if (location.state?.searchState) {
-    // Restore your state here
-    setQuery(location.state.searchState.query);
-    // ...etc
-  }
-}, [location]);
 
   return (
     <div className="app">
