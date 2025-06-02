@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Homepage from './routes/Homepage'
 import Login from './routes/Login'
 import Company from './routes/Company'
@@ -16,6 +16,7 @@ import ErrorPage from './routes/ErrorPage'
 
 
 import { AuthProvider } from './context/Authcontext'
+import { RecipeProvider } from './context/RecipeContext'
 
 
 
@@ -26,12 +27,13 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
+    <RecipeProvider>
       <Header />
     <Routes>
  
- 
-      <Route path='' element={<Homepage/>}/>
-
+    
+       {/* Add redirect from root to homepage */}
+      <Route index element={<Navigate to="/homepage" replace />} />
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/company' element={<Company></Company>}/>
@@ -46,12 +48,12 @@ function App() {
       <Route path="/recipe/:id" element={<Result />} />
 
          <Route path="*" element={<ErrorPage/>}/>
-      {/* </Route> */}
+
       
      
     </Routes>
   
-
+    </RecipeProvider>
     </AuthProvider>
     </BrowserRouter>
    

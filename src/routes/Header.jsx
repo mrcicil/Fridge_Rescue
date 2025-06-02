@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 import fridgeLogo from '../assets/fridge_rescue.png';
 import AuthContext from '../context/Authcontext';
 import { Link } from 'react-router-dom';
+import styles from './Header.module.css';
 
 function Header(){
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
