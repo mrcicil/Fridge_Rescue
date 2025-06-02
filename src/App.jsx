@@ -19,8 +19,6 @@ import { AuthProvider } from './context/Authcontext'
 import { RecipeProvider } from './context/RecipeContext'
 
 
-import { AuthProvider } from "./context/Authcontext";
-
 function App() {
   return (
     <BrowserRouter>

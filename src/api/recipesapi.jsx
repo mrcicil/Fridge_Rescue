@@ -76,6 +76,7 @@ export const findRecipesByIngredientsMock = () => recipe_detail;
 export const getRecipeInstructions = async (id) => {
   try {
     const response = await spoonacularApi.get(`/${id}/analyzedInstructions`);
+    // const response = await spoonacularApi.get(`/${id}/information`);
     return response.data;
   } catch (error) {
     console.error('Error fetching recipe details:', error);

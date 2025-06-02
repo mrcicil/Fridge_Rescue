@@ -30,9 +30,11 @@ function Result({}) {
     setError(null);
 
     try {
-      const results = await getRecipeInstructions(id);
+      const resultsRaw = await getRecipeInstructions(id);
 
-      console.log("results from Result.jsx", results);
+      console.log("results from Result.jsx", resultsRaw);
+
+      const results = resultsRaw[0].steps;
 
       if (results?.length) {
         setRecipeInstructions(results);
@@ -86,8 +88,8 @@ function Result({}) {
   // }, [id]);
 
   useEffect(() => {
-    fetchMockData();
-    //fetchData();
+    //fetchMockData();
+     fetchData();
   }, [id]);
 
   // Fetch recipes from API
@@ -273,7 +275,7 @@ return (
           <div className="w-full h-px bg-light-gray my-6"></div>
           {/* Print button (unchanged) */}
           <div className="text-center">
-            <button className="bg-black text-black px-4 py-2 rounded-lg hover:bg-gray-800">
+            <button className="bg-biege text-black px-4 py-2 rounded-lg hover:bg-biege-800">
               Print Recipe
             </button>
           </div>

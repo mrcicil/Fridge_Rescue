@@ -41,7 +41,7 @@ const location = useLocation();
       updateSearchResults(results, ingredients);
 
       // Store results in state
-      setRecipes(results);
+      // setRecipes(results);
       setShowResults(true);
       
     } catch (err) {
