@@ -1,5 +1,5 @@
 import fridgeLogo from "../assets/fridge_rescue.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
 import { findRecipesByIngredients } from '../api/recipesapi';
@@ -10,8 +10,14 @@ function Search() {
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-    // Use context instead of local state for recipes
   const { searchResults, updateSearchResults } = useRecipeContext();
+
+  // Add this useEffect to show results if context has data
+  useEffect(() => {
+    if (searchResults && searchResults.length > 0) {
+      setShowResults(true);
+    }
+  }, [searchResults]);
 
   const handleSearch = async (ingredients) => {
     try {
@@ -31,6 +37,7 @@ function Search() {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
