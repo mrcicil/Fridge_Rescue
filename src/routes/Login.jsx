@@ -3,11 +3,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/Authcontext';
 import { useContext } from 'react';
+import { useEffect } from 'react';
 
 function Login(){
   const [username, setUsername] = useState();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!!localStorage.getItem("userToken")){
+      navigate("/homepage")
+    }
+  })
+
 
 const handleSubmit = (e) => {
     e.preventDefault();
@@ -63,7 +71,7 @@ const handleSubmit = (e) => {
               </div>
             </div>
 
-            <div className='bg-sky-400'>
+            {/* <div className='bg-sky-400'>
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md hover:bg-indigo-500"
@@ -71,7 +79,19 @@ const handleSubmit = (e) => {
 
                 Sign in
               </button>
-            </div>
+            </div> */}
+
+            <div className="bg-sky-400">
+  <button
+    type="submit"
+    className="flex w-full justify-center rounded-md bg-green-500 text-black hover:bg-green-700"
+  >
+    Sign in
+  </button>
+</div>
+
+
+            
           </form>
 
         
