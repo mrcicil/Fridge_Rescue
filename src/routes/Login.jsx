@@ -3,11 +3,19 @@ import { useState } from 'react';
 import { useNavigate, Link  } from 'react-router-dom';
 import AuthContext from '../context/Authcontext';
 import { useContext } from 'react';
+import { useEffect } from 'react';
 
 function Login(){
   const [username, setUsername] = useState();
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(!!localStorage.getItem("userToken")){
+      navigate("/homepage")
+    }
+  })
+
 
 const handleSubmit = (e) => {
     e.preventDefault();

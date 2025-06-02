@@ -11,9 +11,12 @@ import Company from './routes/Company'
 import Header from './routes/Header'
 import Search from './routes/Search'
 import Result from './routes/result'
+import ProtectedRoute from './routes/ProtectedRoute'
+import ErrorPage from './routes/ErrorPage'
 
 
 import { AuthProvider } from './context/Authcontext'
+import { RecipeProvider } from './context/RecipeContext'
 
 
 
@@ -24,26 +27,33 @@ function App() {
     
     <BrowserRouter>
     <AuthProvider>
-      {/* <Header /> */}
+    <RecipeProvider>
+      <Header />
     <Routes>
  
-      <Route path='/' element={<Header/>}>
+    
        {/* Add redirect from root to homepage */}
       <Route index element={<Navigate to="/homepage" replace />} />
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/company' element={<Company></Company>}/>
-      <Route path='/search' element={<Search />}/>
+     
+      <Route path='/search' element={
+         <ProtectedRoute>
+        <Search />
+         </ProtectedRoute>
+         }/>
       
       {/* TRISHA - Changed this route path so that clicking on result card leads to Caleb's detail page */}
       <Route path="/recipe/:id" element={<Result />} />
 
+         <Route path="*" element={<ErrorPage/>}/>
 
-      </Route>
+      
      
     </Routes>
   
-
+    </RecipeProvider>
     </AuthProvider>
     </BrowserRouter>
    

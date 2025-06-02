@@ -14,7 +14,7 @@ function Header(){
   
     let navigation = [];
 
-    if (user === null){
+    if (localStorage.getItem("userToken") === null){
       navigation = [
       { name: 'Home', href: '/homepage' },
       { name: 'Company', href: '/company' },
@@ -44,7 +44,7 @@ function Header(){
                       <img className="h-8 w-auto" src={fridgeLogo} alt="Fridge Rescue" />
                     
             </a>
-            <p>Hi {user? user.username : "guest"}!</p>
+            <p>Hi {!!localStorage.getItem("userToken")? localStorage.getItem("userToken") : "guest"}!</p>
           </div>
           
           <div className="flex lg:hidden">
@@ -67,7 +67,8 @@ function Header(){
           
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {user? (<a href="#" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
+            {/* Rahmat - after user logout which page to land? */}
+            {!!localStorage.getItem("userToken")? (<a href="/login" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
               Log out<span aria-hidden="true">&rarr;</span>
             </a>) : (<Link to="/login" className="text-sm/6 font-semibold text-gray-900">
               Log in<span aria-hidden="true">&rarr;</span>

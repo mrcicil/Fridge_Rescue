@@ -1,14 +1,23 @@
 import fridgeLogo from "../assets/fridge_rescue.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
 import { findRecipesByIngredients } from '../api/recipesapi';
+import { useRecipeContext } from '../context/RecipeContext';
 
 function Search() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [recipes, setRecipes] = useState([]);
   const [showResults, setShowResults] = useState(false);
+
+  const { searchResults, updateSearchResults } = useRecipeContext();
+
+  // Add this useEffect to show results if context has data
+  useEffect(() => {
+    if (searchResults && searchResults.length > 0) {
+      setShowResults(true);
+    }
+  }, [searchResults]);
 
   const handleSearch = async (ingredients) => {
     try {
@@ -17,7 +26,7 @@ function Search() {
       setShowResults(false);
       
       const results = await findRecipesByIngredients(ingredients);
-      setRecipes(results);
+      updateSearchResults(results, ingredients);
       setShowResults(true);
       
     } catch (err) {
@@ -28,6 +37,7 @@ function Search() {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
@@ -65,7 +75,7 @@ function Search() {
         {/* Results */}
         {showResults && !loading && (
           <div className="mt-8">
-            <RecipeSearchResults recipes={recipes} />
+            <RecipeSearchResults recipes={searchResults} />
           </div>
         )}
       </div>
