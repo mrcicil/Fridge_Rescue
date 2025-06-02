@@ -17,7 +17,7 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer"
+      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer flex flex-col h-full"
       onClick={handleCardClick}
     >
       {/* Recipe Image */}
@@ -34,7 +34,7 @@ const RecipeCard = ({ recipe }) => {
       </div>
 
       {/* Recipe Content */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-grow">
         <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 leading-tight">
           {recipe.title}
         </h3>
@@ -53,7 +53,7 @@ const RecipeCard = ({ recipe }) => {
 
         {/* Missing Ingredients Preview */}
         {recipe.missedIngredients && recipe.missedIngredients.length > 0 && (
-          <div className="space-y-2">
+          <div className="space-y-2 mb-4">
             <h4 className="text-sm font-semibold text-gray-700">Missing ingredients:</h4>
             <div className="flex flex-wrap gap-1">
               {recipe.missedIngredients.slice(0, 3).map((ingredient, index) => (
@@ -74,8 +74,18 @@ const RecipeCard = ({ recipe }) => {
         )}
 
         {/* Visual indicator that it's clickable */}
-        <div className="mt-4 text-center">
-          <span className="text-blue-600 text-sm font-medium">View instructions →</span>
+        <div className="mt-4 text-center mt-auto pt-4">
+          <button
+            onClick={handleCardClick}
+            className="inline-block bg-gray-600 dark:bg-blue-600 
+                     !text-white px-4 py-2 rounded-lg font-semibold 
+                     transition-all duration-300 
+                     hover:bg-gray-700 dark:hover:bg-blue-700 
+                     hover:-translate-y-0.5 hover:shadow-lg
+                     text-sm mx-auto"
+          >
+            View Instructions
+          </button>
         </div>
       </div>
     </div>
