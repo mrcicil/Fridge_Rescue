@@ -1,61 +1,96 @@
+import { Link } from 'react-router-dom';
+
 const people = [
   {
     name: 'Rahmat Khairi',
     role: 'Member',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    imageUrl: 'https://api.dicebear.com/7.x/bottts/svg?seed=Rahmat&backgroundColor=ffdfbf',
+    description: 'Four minds, four paths, one shared journey.'
   },
-    {
+  {
     name: 'Indy',
     role: 'Member',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    imageUrl: 'https://api.dicebear.com/7.x/bottts/svg?seed=Indy&backgroundColor=b6e3f4',
+    description: 'Together we learn, together we rise.'
   },
-    {
+  {
     name: 'Trisha',
     role: 'Member',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    imageUrl: 'https://api.dicebear.com/7.x/bottts/svg?seed=Trisha&backgroundColor=ffb7b7',
+    description: 'Small team. Big journey. Lasting impact.'
   },
-    {
+  {
     name: 'Caleb',
     role: 'Member',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    imageUrl: 'https://api.dicebear.com/7.x/bottts/svg?seed=Caleb&backgroundColor=c1f4c1',
+    description: 'Learning as one, growing as four.'
   },
+];
 
-]
+function Company() {
+  return (
+    <div className="max-w-7xl mx-auto px-5 py-12 bg-recipe-50">
+      {/* Hero Section */}
+      <section className="text-center mb-16">
+        <h1 className="text-4xl font-bold text-recipe-800 mb-6">
+          Meet Our Team
+        </h1>
+        <p className="text-xl text-recipe-700 max-w-3xl mx-auto">
+          We're a dynamic group of individuals who are passionate about reducing food waste
+          and dedicated to delivering the best recipe solutions for our users.
+        </p>
+      </section>
 
-function Company(){
-    return (
-    <div className="bg-white py-24 sm:py-32">
-      <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
-        <div className="max-w-xl">
-          <h2 className="text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">
-            Meet our members
-          </h2>
-          <p className="mt-6 text-lg/8 text-gray-600">
-            We’re a dynamic group of individuals who are passionate about what we do and dedicated to delivering the
-            best recipe for our clients.
-          </p>
-        </div>
-        <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+      {/* Team Grid */}
+      <section className="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {people.map((person) => (
-            <li key={person.name}>
-              <div className="flex items-center gap-x-6">
-                <img alt="" src={person.imageUrl} className="size-16 rounded-full" />
-                <div>
-                  <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">{person.name}</h3>
-                  <p className="text-sm/6 font-semibold text-indigo-600">{person.role}</p>
-                </div>
+            <div 
+              key={person.name}
+              className="flex flex-col items-center p-6 bg-recipe-50 rounded-xl hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="w-32 h-32 mb-6 rounded-full overflow-hidden bg-white p-2 shadow-md">
+                <img
+                  src={person.imageUrl}
+                  alt={person.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            </li>
+              <h3 className="text-xl font-bold text-recipe-800 mb-2">
+                {person.name}
+              </h3>
+              <p className="text-recipe-500 mb-4">
+                {person.role}
+              </p>
+              <p className="text-recipe-600 text-center text-sm">
+                {person.description}
+              </p>
+            </div>
           ))}
-        </ul>
-      </div>
-    </div>
-  )
+        </div>
+      </section>
 
+      {/* Values Section */}
+      <section className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-recipe-800 mb-6">
+            Our Mission
+          </h2>
+          <p className="text-recipe-700 mb-8">
+            At Fridge Rescue, we're committed to helping households reduce food waste
+            through innovative recipe suggestions. Our team combines technical expertise
+            with a passion for sustainable cooking solutions.
+          </p>
+          <Link 
+            to="/search" 
+            className="inline-block bg-recipe-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-recipe-600 hover:shadow-lg hover:-translate-y-0.5"
+          >
+            Try Our Recipe Finder →
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
 }
 
 export default Company;

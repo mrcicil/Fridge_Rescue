@@ -8,12 +8,17 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   const login = (userData) => {
+    localStorage.setItem("userToken", userData.username);
+    console.log("local",localStorage.getItem("userToken"));
     setUser(userData);
   };
 
   const logout = () => {
     setUser(null);
-    navigate("/homepage");
+    localStorage.removeItem("userToken")
+    console.log("auth", !!localStorage.getItem("userToken"))
+    //Rahmat - after logout, want to land on which page
+    navigate("/login");
   };
 
   return (
