@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {recipe_detail} from '../search_result'
+import { recipe_detail_data } from '../recipe_detail_data';
 
 const API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
 const BASE_URL = 'https://api.spoonacular.com/recipes';
@@ -69,9 +71,12 @@ export const findRecipesByIngredients = async (ingredients) => {
   }
 };
 
+export const findRecipesByIngredientsMock = () => recipe_detail;
+
 export const getRecipeInstructions = async (id) => {
   try {
-    const response = await spoonacularApi.get(`/${id}/information`);
+    const response = await spoonacularApi.get(`/${id}/analyzedInstructions`);
+    // const response = await spoonacularApi.get(`/${id}/information`);
     return response.data;
   } catch (error) {
     console.error('Error fetching recipe details:', error);
@@ -79,3 +84,5 @@ export const getRecipeInstructions = async (id) => {
   }
 };
 
+
+export const getRecipeInstructionsMock = () => recipe_detail_data;
