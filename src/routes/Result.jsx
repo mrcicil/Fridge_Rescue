@@ -19,7 +19,7 @@ function Result({}) {
 
   // Destructure the data (with optional fallback)
   const { recipeData } = state || {};
-  console.log("recipeData from Result.jsx", recipeData);
+
 
   const [recipeInstructions, setRecipeInstructions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +31,6 @@ function Result({}) {
 
     try {
       const resultsRaw = await getRecipeInstructions(id);
-
-      console.log("results from Result.jsx", resultsRaw);
 
       const results = resultsRaw[0].steps;
 
@@ -62,10 +60,7 @@ function Result({}) {
       const resultsRaw = getRecipeInstructionsMock();
       //const results = recipe_detail_data;
 
-      console.log("results from Result.jsx", resultsRaw);
-
       const results = resultsRaw;
-      console.log("results after JSON", results);
 
       if (results?.length) {
         setRecipeInstructions(results);
@@ -85,6 +80,11 @@ function Result({}) {
     //fetchMockData();
      fetchData();
   }, [id]);
+
+    function handlePrint() {
+      window.print()
+//the window.print() command is what is telling the browser to print the page
+  }
 
 return (
   <div className="min-h-dvh md:flex justify-center items-center md:bg-eggshell">
@@ -199,7 +199,7 @@ return (
           <div className="w-full h-px bg-light-gray my-6"></div>
           {/* Print button (unchanged) */}
           <div className="text-center">
-            <button className="bg-biege text-black px-4 py-2 rounded-lg hover:bg-biege-800">
+            <button onClick={handlePrint} className="bg-biege text-black px-4 py-2 rounded-lg hover:bg-biege-800">
               Print Recipe
             </button>
           </div>
