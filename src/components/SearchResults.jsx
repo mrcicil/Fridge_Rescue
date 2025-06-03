@@ -11,22 +11,10 @@ const RecipeCard = ({ recipe }) => {
   const handleCardClick = () => {
     // Store the selected recipe in context
     selectRecipe(recipe.id);
-    // Navigate to recipe detail page with the recipe ID
-    // This save the current page so user can come back to the search results
-    //   navigate(`/recipe/${recipe.id}`, {
-    //     state: {
-    //       fromSearch: true, // Flag to indicate coming from search
-    //       searchQuery: "chicken", // Optional: pass search terms
-    //     },
-    //   });
-    // };
-
-    // navigate(`/recipe/${recipe.id}`);
 
     navigate(`/recipe/${recipe.id}`, {
       state: {
         recipeData: recipe, // Pass the entire recipe object
-        //searchQuery: "pasta", // Optional additional data
       },
     });
   };

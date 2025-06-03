@@ -63,9 +63,7 @@ function Result({}) {
       //const results = recipe_detail_data;
 
       console.log("results from Result.jsx", resultsRaw);
-      //console.log("JSON.stringify(results[0])", JSON.stringify(results[0]));
 
-      //const results = JSON.stringify(resultsRaw[0]);
       const results = resultsRaw;
       console.log("results after JSON", results);
 
@@ -83,84 +81,10 @@ function Result({}) {
     }
   };
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [id]);
-
   useEffect(() => {
     //fetchMockData();
      fetchData();
   }, [id]);
-
-  // Fetch recipes from API
-
-  // Show results
-  //setShowResults(true);
-
-  // const recipeSteps = recipe_detail_data[0].steps;
-  // console.log("recipeSteps", recipeSteps);
-
-  //const { recipeData } = state || {}; // Destructure (fallback to {} if state is undefined)
-
-  // const recipeSteps = state.recipeData[0].steps;
-  //const recipeId = state.recipeData.id;
-  //console.log("recipeId", recipeId);
-
-  // return (
-  //   <div className={styles.recipeInstructions}>
-  //     {/* Add back button at the top */}
-  //     <button
-  //       onClick={() => navigate(-1)} // Goes back one page in history
-  //       className={styles.backButton} // Style this in your CSS
-  //     >
-  //       &larr; Back
-  //     </button>
-
-  //     <br />
-  //     <h2>Recipe Instructions</h2>
-  //     <table className={styles.table}>
-  //       {/* Rest of your existing table code */}
-  //       <thead>
-  //         <tr className={styles.header}>
-  //           <th className={styles.cell}>Step</th>
-  //           <th className={styles.cell}>Instruction</th>
-  //           <th className={styles.cell}>Ingredients</th>
-  //           <th className={styles.cell}>Equipment</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {recipeInstructions.map((step) => (
-  //           <tr key={step.number}>
-  //             <td className={styles.cell}>{step.number}</td>
-  //             <td className={styles.cell}>{step.step}</td>
-  //             <td className={styles.cell}>
-  //               {step.ingredients.length > 0 ? (
-  //                 <ul className={styles.list}>
-  //                   {step.ingredients.map((ingredient) => (
-  //                     <li key={ingredient.id}>{ingredient.name}</li>
-  //                   ))}
-  //                 </ul>
-  //               ) : (
-  //                 "-"
-  //               )}
-  //             </td>
-  //             <td className={styles.cell}>
-  //               {step.equipment.length > 0 ? (
-  //                 <ul className={styles.list}>
-  //                   {step.equipment.map((item) => (
-  //                     <li key={item.id}>{item.name}</li>
-  //                   ))}
-  //                 </ul>
-  //               ) : (
-  //                 "-"
-  //               )}
-  //             </td>
-  //           </tr>
-  //         ))}
-  //       </tbody>
-  //     </table>
-  //   </div>
-  // );
 
 return (
   <div className="min-h-dvh md:flex justify-center items-center md:bg-eggshell">
