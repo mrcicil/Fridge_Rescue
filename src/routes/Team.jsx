@@ -27,7 +27,7 @@ const people = [
   },
 ];
 
-function Company() {
+function Team() {
   return (
     <div className="max-w-7xl mx-auto px-5 py-12 bg-recipe-50">
       {/* Hero Section */}
@@ -93,4 +93,4 @@ function Company() {
   );
 }
 
-export default Company;
+export default Team;
