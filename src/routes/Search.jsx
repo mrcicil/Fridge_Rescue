@@ -1,11 +1,20 @@
 import fridgeLogo from "../assets/fridge_rescue.png";
-import { useState, useEffect } from "react";
+import "../App.css";
+import { useState, createContext, useContext } from "react";
 import IngredientInput from "../components/IngredientInput";
 import RecipeSearchResults from '../components/SearchResults';
-import { findRecipesByIngredients } from '../api/recipesapi';
+import { findRecipesByIngredients, findRecipesByIngredientsMock, getRecipeInstructions } from '../api/recipesapi';
 import { useRecipeContext } from '../context/RecipeContext';
 
+import { useLocation  } from "react-router-dom";
+import { useEffect } from "react";
+
+const SearchContext = createContext();
+
 function Search() {
+
+const location = useLocation();
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
@@ -23,10 +32,16 @@ function Search() {
     try {
       setLoading(true);
       setError(null);
+      
       setShowResults(false);
       
       const results = await findRecipesByIngredients(ingredients);
+
+      /* CALEB: TRISHA - What does this function do?? */
       updateSearchResults(results, ingredients);
+
+      // Store results in state
+      // setRecipes(results);
       setShowResults(true);
       
     } catch (err) {
@@ -38,6 +53,13 @@ function Search() {
     }
   };
 
+//   useEffect(() => {
+//   if (location.state?.searchState) {
+//     // Restore your state here
+//     setQuery(location.state.searchState.query);
+//     // ...etc
+//   }
+// }, [location]);
 
   return (
     <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
@@ -53,6 +75,10 @@ function Search() {
             Reduce food waste by finding recipes with ingredients you already have!
           </p>
         </div>
+      {/* )} */}
+
+      {/* show recipe details in light windows after user click on it */}
+      {showResults}
 
         <IngredientInput onSearch={handleSearch} />
 
