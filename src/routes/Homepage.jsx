@@ -111,7 +111,7 @@ function Homepage() {
           We're passionate about reducing food waste and making cooking easier for everyone.
         </p>
         <Link 
-          to="/company" 
+          to="/team" 
           className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
         >
           Meet Our Team →
