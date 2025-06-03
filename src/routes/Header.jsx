@@ -5,26 +5,23 @@ import { Outlet } from 'react-router-dom'
 import fridgeLogo from '../assets/fridge_rescue.png';
 import AuthContext from '../context/Authcontext';
 import { Link } from 'react-router-dom';
-import styles from './Header.module.css';
 
 function Header(){
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { user, logout } = useContext(AuthContext);
-    console.log(user);
-  
+    const { logout } = useContext(AuthContext);
     let navigation = [];
 
     if (localStorage.getItem("userToken") === null){
       navigation = [
       { name: 'Home', href: '/homepage' },
-      { name: 'Company', href: '/company' },
+      { name: 'Team', href: '/team' },
     ]
     }
     else{
       navigation = [
       { name: 'Home', href: '/homepage' },
-      { name: 'Recipe', href: '/search' },
-      { name: 'Company', href: '/company' },
+      { name: 'Search', href: '/search' },
+      { name: 'Team', href: '/team' },
       ]
     }
 
@@ -35,12 +32,6 @@ function Header(){
           <div className="flex lg:flex-1">
             <a href="/homepage" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              {/* <img
-                alt={fridgeLogo}
-                src=""
-                className="h-8 w-auto"
-              /> */}
-               
                       <img className="h-8 w-auto" src={fridgeLogo} alt="Fridge Rescue" />
                     
             </a>
@@ -67,7 +58,7 @@ function Header(){
           
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            {/* Rahmat - after user logout which page to land? */}
+         
             {!!localStorage.getItem("userToken")? (<a href="/login" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
               Log out<span aria-hidden="true">&rarr;</span>
             </a>) : (<Link to="/login" className="text-sm/6 font-semibold text-gray-900">
@@ -98,16 +89,14 @@ function Header(){
                 <div className="space-y-2 py-6">
                  {navigation.map((item) => (
              <Link key={item.name} to={item.href} className="text-sm/6 font-semibold text-gray-900">
-                {item.name}
+                {" "}{item.name}{" "}
               </Link>
-         
-              
+                       
             ))}
 
-           
                 </div>
                 <div className="py-6">
-                   {user? (<a href="#" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
+                   {!!localStorage.getItem("userToken")? (<a href="#" onClick={logout} className="text-sm/6 font-semibold text-gray-900">
               Log out<span aria-hidden="true">&rarr;</span>
             </a>) : (<a href="/login" className="text-sm/6 font-semibold text-gray-900">
               Log in<span aria-hidden="true">&rarr;</span>
