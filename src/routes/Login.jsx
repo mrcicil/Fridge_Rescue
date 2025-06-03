@@ -34,6 +34,7 @@ const handleSubmit = (e) => {
       if(username == User_data[i].username && password == User_data[i].password){
       
       login({ username });
+      alert("Log in successfully. ENJOY!!!");
     navigate("/search");
       break;
     }
