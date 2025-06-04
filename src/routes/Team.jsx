@@ -32,17 +32,17 @@ function Team() {
     <div className="max-w-7xl mx-auto px-5 py-12 bg-recipe-50">
       {/* Hero Section */}
       <section className="text-center mb-16">
-        <h1 className="text-4xl font-bold text-recipe-800 mb-6">
+        <h1 className="text-4xl font-bold text-recipe-800 dark:text-gray-700 mb-6">
           Meet Our Team
         </h1>
-        <p className="text-xl text-recipe-700 max-w-3xl mx-auto">
+        <p className="text-xl text-recipe-700 max-w-3xl  dark:text-gray-700 mx-auto">
           We're a dynamic group of individuals who are passionate about reducing food waste
           and dedicated to delivering the best recipe solutions for our users.
         </p>
       </section>
 
       {/* Team Grid */}
-      <section className="bg-white rounded-2xl shadow-lg p-8 mb-12">
+      <section className="bg-white rounded-2xl dark:text-gray-700 shadow-lg p-8 mb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {people.map((person) => (
             <div 
@@ -56,13 +56,13 @@ function Team() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-bold text-recipe-800 mb-2">
+              <h3 className="text-xl font-bold text-recipe-800 dark:text-gray-700 mb-2">
                 {person.name}
               </h3>
-              <p className="text-recipe-500 mb-4">
+              <p className="text-recipe-500 dark:text-gray-700 mb-4">
                 {person.role}
               </p>
-              <p className="text-recipe-600 text-center text-sm">
+              <p className="text-recipe-600 dark:text-gray-700 text-center text-sm">
                 {person.description}
               </p>
             </div>
@@ -73,20 +73,20 @@ function Team() {
       {/* Values Section */}
       <section className="bg-white rounded-2xl shadow-lg p-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-recipe-800 mb-6">
+          <h2 className="text-3xl font-bold text-recipe-800 dark:text-gray-700 mb-6">
             Our Mission
           </h2>
-          <p className="text-recipe-700 mb-8">
+          <p className="text-recipe-700 dark:text-gray-700 mb-8">
             At Fridge Rescue, we're committed to helping households reduce food waste
             through innovative recipe suggestions. Our team combines technical expertise
             with a passion for sustainable cooking solutions.
           </p>
           <Link 
             to="/search" 
-            className="inline-block bg-recipe-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-recipe-600 hover:shadow-lg hover:-translate-y-0.5"
+            className="inline-block bg-recipe-500 bg-gray-600 !text-white dark:bg-gray-600 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-recipe-600 hover:shadow-lg hover:-translate-y-0.5"
           >
-            Try Our Recipe Finder →
-          </Link>
+            Try Our Recipe Finder
+            </Link>
         </div>
       </section>
     </div>

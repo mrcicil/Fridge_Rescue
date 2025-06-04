@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './SearchResults.module.css';
+//import styles from './SearchResults.module.css';
 import { useRecipeContext } from '../context/RecipeContext';
 
 
@@ -31,10 +31,10 @@ const RecipeCard = ({ recipe }) => {
           alt={recipe.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-3 right-3 bg-white bg-opacity-90 rounded-full p-2 flex items-center space-x-1">
-          {/* Like button functionality to be added later */}
+        {/* Like button functionality to be added later */}
+        {/* <div className="absolute top-3 right-3 bg-white bg-opacity-90 rounded-full p-2 flex items-center space-x-1">
           <span className="text-red-500">❤️</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Recipe Content */}
@@ -81,10 +81,10 @@ const RecipeCard = ({ recipe }) => {
         <div className="mt-4 text-center mt-auto pt-4">
           <button
             onClick={handleCardClick}
-            className="inline-block bg-gray-600 dark:bg-blue-600 
+            className="inline-block bg-gray-600 dark:bg-gray-600 
                      !text-white px-4 py-2 rounded-lg font-semibold 
                      transition-all duration-300 
-                     hover:bg-gray-700 dark:hover:bg-blue-700 
+                     hover:bg-gray-700 dark:hover:bg-gray-700 
                      hover:-translate-y-0.5 hover:shadow-lg
                      text-sm mx-auto"
           >
@@ -128,7 +128,7 @@ const RecipeSearchResults = ({ recipes = [] }) => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-700 mb-2">
             Recipe Search Results
           </h1>
           <p className="text-gray-600">

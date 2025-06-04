@@ -30,7 +30,7 @@ const IngredientInput = ({ onSearch }) => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-recipe-800 text-center mb-8">
+      <h2 className="text-3xl font-bold text-recipe-800 dark:text-gray-500 text-center mb-8">
         What's in your fridge?
       </h2>
       
@@ -60,7 +60,7 @@ const IngredientInput = ({ onSearch }) => {
       </div>
 
       {/* Ingredients List */}
-      <div className={`flex flex-wrap gap-2 p-4 bg-recipe-50 dark:bg-gray-700 
+      <div className={`flex flex-wrap gap-2 p-4 bg-recipe-50  
                     rounded-lg transition-all duration-300 mb-4
                     ${ingredients.length > 0 ? 'min-h-[80px]' : 'min-h-[0px]'}`}>
         {ingredients.map((ingredient, index) => (

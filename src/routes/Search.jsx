@@ -71,7 +71,7 @@ const location = useLocation();
             alt="Fridge Rescue"
             className="w-32 h-auto mx-auto mb-6 animate-float"
           />
-          <p className="text-xl text-recipe-700 max-w-2xl mx-auto">
+          <p className="text-xl text-recipe-700 dark:text-gray-700 max-w-2xl mx-auto">
             Reduce food waste by finding recipes with ingredients you already have!
           </p>
         </div>
@@ -85,7 +85,7 @@ const location = useLocation();
         {/* Loading State */}
         {loading && (
           <div className="text-center py-8">
-            <div className="text-lg text-recipe-600">
+            <div className="text-lg text-recipe-600 dark:text-gray-500">
               Searching for recipes...
             </div>
           </div>
@@ -94,7 +94,7 @@ const location = useLocation();
         {/* Error State */}
         {error && (
           <div className="mx-auto max-w-2xl mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-center">{error}</p>
+            <p className="text-red-600 dark:text-gray-500 text-center">{error}</p>
           </div>
         )}
 
