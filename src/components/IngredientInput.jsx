@@ -30,21 +30,26 @@ const IngredientInput = ({ onSearch }) => {
 
   return (
     <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-recipe-800 text-center mb-8">
+      <h2 className="text-3xl font-bold text-recipe-800 dark:text-gray-500 text-center mb-8">
         What's in your fridge?
       </h2>
       
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-2 md:gap-4 mb-4">
         <input
           type="text"
           value={currentIngredient}
           onChange={(e) => setCurrentIngredient(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Enter an ingredient"
-          className="flex-1 px-6 py-3 rounded-lg border border-recipe-200 
-                    focus:ring-2 focus:ring-recipe-500 focus:border-recipe-500
-                    transition-colors duration-200 bg-white text-recipe-800
-                    placeholder-recipe-400"
+          className="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-lg 
+                    border border-recipe-200 dark:border-gray-600
+                    focus:ring-2 focus:ring-recipe-500 dark:focus:ring-blue-500
+                    focus:border-recipe-500 dark:focus:border-blue-500
+                    transition-colors duration-200 
+                    bg-white dark:bg-gray-700
+                    text-recipe-800 dark:text-white
+                    placeholder-recipe-400 dark:placeholder-gray-400
+                    text-sm md:text-base"
         />
         <button 
           onClick={handleAddIngredient}
@@ -54,18 +59,28 @@ const IngredientInput = ({ onSearch }) => {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-8 min-h-[100px] p-4 bg-recipe-50 rounded-lg">
+      {/* Ingredients List */}
+      <div className={`flex flex-wrap gap-2 p-4 bg-recipe-50  
+                    rounded-lg transition-all duration-300 mb-4
+                    ${ingredients.length > 0 ? 'min-h-[80px]' : 'min-h-[0px]'}`}>
         {ingredients.map((ingredient, index) => (
           <div 
             key={index} 
-            className="inline-flex items-center bg-white px-4 py-2 rounded-full
-                     shadow-sm border border-recipe-200"
+            className="inline-flex items-center bg-white dark:bg-gray-600 
+                    px-3 py-2 rounded-full shadow-sm 
+                    border border-recipe-200 dark:border-gray-500"
           >
-            <span className="text-recipe-700 mr-2">{ingredient}</span>
+            <span className="text-recipe-700 dark:text-gray-200 text-sm">
+              {ingredient}
+            </span>
             <button
               onClick={() => handleRemoveIngredient(index)}
-              className="text-recipe-400 hover:text-recipe-600 transition-colors
-                       duration-200 font-bold text-xl leading-none"
+              className="ml-1 text-recipe-400 dark:text-gray-400 
+                      hover:text-recipe-600 dark:hover:text-gray-200 
+                      transition-colors duration-200 
+                      w-4 h-4 flex items-center justify-center
+                      text-sm leading-none"
+              aria-label={`Remove ${ingredient}`}
             >
               ×
             </button>

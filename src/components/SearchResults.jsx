@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './SearchResults.module.css';
+//import styles from './SearchResults.module.css';
 import { useRecipeContext } from '../context/RecipeContext';
 
 
@@ -20,8 +20,8 @@ const RecipeCard = ({ recipe }) => {
   };
 
   return (
-    <div
-      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer"
+    <div 
+      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer flex flex-col h-full"
       onClick={handleCardClick}
     >
       {/* Recipe Image */}
@@ -31,14 +31,14 @@ const RecipeCard = ({ recipe }) => {
           alt={recipe.title}
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-3 right-3 bg-white bg-opacity-90 rounded-full p-2 flex items-center space-x-1">
-          {/* Like button functionality to be added later */}
+        {/* Like button functionality to be added later */}
+        {/* <div className="absolute top-3 right-3 bg-white bg-opacity-90 rounded-full p-2 flex items-center space-x-1">
           <span className="text-red-500">❤️</span>
-        </div>
+        </div> */}
       </div>
 
       {/* Recipe Content */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-grow">
         <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 leading-tight">
           {recipe.title}
         </h3>
@@ -57,10 +57,8 @@ const RecipeCard = ({ recipe }) => {
 
         {/* Missing Ingredients Preview */}
         {recipe.missedIngredients && recipe.missedIngredients.length > 0 && (
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-gray-700">
-              Missing ingredients:
-            </h4>
+          <div className="space-y-2 mb-4">
+            <h4 className="text-sm font-semibold text-gray-700">Missing ingredients:</h4>
             <div className="flex flex-wrap gap-1">
               {recipe.missedIngredients.slice(0, 3).map((ingredient, index) => (
                 <span
@@ -80,10 +78,18 @@ const RecipeCard = ({ recipe }) => {
         )}
 
         {/* Visual indicator that it's clickable */}
-        <div className="mt-4 text-center">
-          <span className="text-blue-600 text-sm font-medium">
-            View instructions →
-          </span>
+        <div className="mt-4 text-center mt-auto pt-4">
+          <button
+            onClick={handleCardClick}
+            className="inline-block bg-gray-600 dark:bg-gray-600 
+                     !text-white px-4 py-2 rounded-lg font-semibold 
+                     transition-all duration-300 
+                     hover:bg-gray-700 dark:hover:bg-gray-700 
+                     hover:-translate-y-0.5 hover:shadow-lg
+                     text-sm mx-auto"
+          >
+            View Instructions
+          </button>
         </div>
       </div>
     </div>
@@ -122,7 +128,7 @@ const RecipeSearchResults = ({ recipes = [] }) => {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-700 dark:text-gray-700 mb-2">
             Recipe Search Results
           </h1>
           <p className="text-gray-600">

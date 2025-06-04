@@ -73,19 +73,19 @@ function Homepage() {
             </h3>
             <div className="space-y-3">
               <div className="flex items-center">
-                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
                   1
                 </span>
                 <p className="text-gray-600">Input ingredients you have in your fridge</p>
               </div>
               <div className="flex items-center">
-                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
                   2
                 </span>
                 <p className="text-gray-600">Get instant recipe suggestions</p>
               </div>
               <div className="flex items-center">
-                <span className="w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
+                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
                   3
                 </span>
                 <p className="text-gray-600">Cook delicious meals and reduce waste!</p>
@@ -114,7 +114,7 @@ function Homepage() {
           to="/team" 
           className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
         >
-          Meet Our Team →
+          Meet Our Team
         </Link>
       </section>
     </div>
