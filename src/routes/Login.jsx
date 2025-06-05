@@ -47,7 +47,7 @@ const handleSubmit = (e) => {
 };
 
 return (
-    <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
+    <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50">
       <div className="max-w-3xl mx-auto pt-20 pb-16"> 
         {/* Card Container */}
         <div className="bg-white dark:bg-white rounded-2xl shadow-lg p-12">

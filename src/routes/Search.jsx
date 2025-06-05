@@ -62,7 +62,7 @@ const location = useLocation();
 // }, [location]);
 
   return (
-    <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50">
+    <div className="w-full max-w-7xl mx-auto px-4 min-h-screen bg-recipe-50 overflow-x-hidden">
       {/* Hero Section */}
       <div className="pt-16 pb-8">
         <div className="text-center mb-8">

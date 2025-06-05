@@ -87,7 +87,7 @@ function Result({}) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-5 min-h-screen bg-recipe-50 py-8">
+    <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50 py-8">
       <div className="max-w-4xl mx-auto bg-white dark:white rounded-2xl shadow-lg p-6 md:p-8">
         {/* Header with back button and title */}
         <div className="flex items-center gap-4 mb-8">

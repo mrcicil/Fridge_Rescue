@@ -3,8 +3,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import fridgeLogo from "../assets/fridge_rescue.png";
-import foodWasteImage from "../assets/food_waste.png"; // Add this image to your assets
-import cookingImage from "../assets/cooking.jpg"; // Add this image to your assets
+import foodWasteImage from "../assets/food_waste.png"; 
+import cookingImage from "../assets/cooking.jpg"; 
 
 function Homepage() {
   return (
@@ -44,59 +44,78 @@ function Homepage() {
       </section>
 
       {/* Main Content */}
-      <section className="py-10 bg-gray-50 rounded-2xl mb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 px-5">
+      <section className="py-10 bg-gray-50 rounded-2xl mb-10 pr-4 pl-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 px-4 md:px-8">
           {/* Left Column */}
           <div className="flex flex-col">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
               Why Fridge Rescue?
             </h2>
-            <p className="text-gray-600 mb-4 leading-relaxed text-left">
-              Did you know that approximately one-third of all food produced globally goes to waste? That's about 1.3 billion tonnes per year!
-            </p>
-            <p className="text-gray-600 mb-4 leading-relaxed text-left">
-              Our mission is to help home cooks like you reduce food waste by making the most of what's already in your fridge.
-            </p>
-            <div className="mt-6 text-center">
-              <img
-                src={foodWasteImage}
-                alt="Food waste illustration"
-                className="max-w-full h-auto rounded-xl shadow-md mx-auto"
-              />
+            <div className="flex flex-col flex-grow px-4 md:px-6"> 
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Did you know that approximately one-third of all food produced globally goes to waste? That's about 1.3 billion tonnes per year!
+              </p>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Our mission is to help home cooks like you reduce food waste by making the most of what's already in your fridge.
+              </p>
+              <div className="mt-auto"> 
+                <img
+                  src={foodWasteImage}
+                  alt="Food waste illustration"
+                  className="w-full max-w-md h-auto rounded-xl shadow-md mx-auto"
+                />
+              </div>
             </div>
           </div>
 
           {/* Right Column */}
           <div className="flex flex-col">
-            <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-8 text-center">
               How It Works
             </h3>
-            <div className="space-y-3">
-              <div className="flex items-center">
-                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
-                  1
-                </span>
-                <p className="text-gray-600">Input ingredients you have in your fridge</p>
+            <div className="flex flex-col flex-grow px-4 md:px-6"> 
+              <div className="space-y-6 mb-8"> 
+                <div className="flex items-start"> 
+                  <div className="flex-shrink-0"> 
+                    <span className="w-8 h-8 bg-gray-600 text-white rounded-full 
+                                  flex items-center justify-center font-bold"> 
+                      1
+                    </span>
+                  </div>
+                  <p className="text-gray-600 ml-4 pt-1 text-left">
+                    Input ingredients you have in your fridge
+                  </p>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <span className="w-8 h-8 bg-gray-600 text-white rounded-full 
+                                  flex items-center justify-center font-bold">
+                      2
+                    </span>
+                  </div>
+                  <p className="text-gray-600 ml-4 pt-1 text-left">
+                    Get instant recipe suggestions
+                  </p>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <span className="w-8 h-8 bg-gray-600 text-white rounded-full 
+                                  flex items-center justify-center font-bold">
+                      3
+                    </span>
+                  </div>
+                  <p className="text-gray-600 ml-4 pt-1 text-left">
+                    Cook delicious meals and reduce waste!
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center">
-                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
-                  2
-                </span>
-                <p className="text-gray-600">Get instant recipe suggestions</p>
+              <div className="mt-auto"> 
+                <img
+                  src={cookingImage}
+                  alt="Cooking illustration"
+                  className="w-full max-w-md h-auto rounded-xl shadow-md mx-auto"
+                />
               </div>
-              <div className="flex items-center">
-                <span className="w-8 h-8 bg-gray-600 text-white rounded-full flex items-center justify-center font-bold mr-4">
-                  3
-                </span>
-                <p className="text-gray-600">Cook delicious meals and reduce waste!</p>
-              </div>
-            </div>
-            <div className="mt-6 text-center">
-              <img
-                src={cookingImage}
-                alt="Cooking illustration"
-                className="max-w-full h-auto rounded-xl shadow-md mx-auto"
-              />
             </div>
           </div>
         </div>

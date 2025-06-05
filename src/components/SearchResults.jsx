@@ -21,7 +21,9 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:transform hover:scale-105 cursor-pointer flex flex-col h-full"
+      className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 
+             hover:shadow-xl hover:transform hover:scale-105 cursor-pointer 
+             flex flex-col h-full w-full"
       onClick={handleCardClick}
     >
       {/* Recipe Image */}
@@ -100,8 +102,8 @@ const RecipeSearchResults = ({ recipes = [] }) => {
   // Handle loading state
   if (!recipes) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-6">
-        <div className="max-w-7xl mx-auto text-center">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50 p-4">
+        <div className="w-full max-w-7xl mx-auto">
           <p className="text-gray-600">Loading recipes...</p>
         </div>
       </div>
@@ -139,7 +141,7 @@ const RecipeSearchResults = ({ recipes = [] }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {recipes.map((recipe) => (
             <RecipeCard key={recipe.id} recipe={recipe} />
           ))}
