@@ -18,6 +18,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -36,6 +41,7 @@ body {
   align-items: center;
   justify-content: center;  
   background-color: #FFF7ED;
+  overflow-x: hidden;
 }
 
 h1 {

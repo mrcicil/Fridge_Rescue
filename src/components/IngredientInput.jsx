@@ -29,31 +29,36 @@ const IngredientInput = ({ onSearch }) => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-4 md:p-8">
       <h2 className="text-3xl font-bold text-recipe-800 dark:text-gray-500 text-center mb-8">
         What's in your fridge?
       </h2>
       
-      <div className="flex gap-2 md:gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row gap-2 md:gap-4 mb-4">
         <input
           type="text"
           value={currentIngredient}
           onChange={(e) => setCurrentIngredient(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Enter an ingredient"
-          className="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-lg 
-                    border border-recipe-200 dark:border-gray-600
-                    focus:ring-2 focus:ring-recipe-500 dark:focus:ring-blue-500
-                    focus:border-recipe-500 dark:focus:border-blue-500
-                    transition-colors duration-200 
-                    bg-white dark:bg-gray-700
-                    text-recipe-800 dark:text-white
-                    placeholder-recipe-400 dark:placeholder-gray-400
-                    text-sm md:text-base"
+          className="w-full px-4 md:px-6 py-2 md:py-3 rounded-lg 
+              border border-recipe-200 dark:border-gray-600
+              focus:ring-2 focus:ring-recipe-500 dark:focus:ring-blue-500
+              focus:border-recipe-500 dark:focus:border-blue-500
+              transition-colors duration-200 
+              bg-white dark:bg-gray-700
+              text-recipe-800 dark:text-white
+              placeholder-recipe-400 dark:placeholder-gray-400
+              text-sm md:text-base"
         />
         <button 
           onClick={handleAddIngredient}
-          className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
+          className="inline-block bg-gray-600 dark:bg-gray-600 
+                     !text-white px-4 py-2 rounded-lg font-semibold 
+                     transition-all duration-300 
+                     hover:bg-gray-700 dark:hover:bg-gray-700 
+                     hover:-translate-y-0.5 hover:shadow-lg
+                     text-sm mx-auto"
         >
           Add
         </button>
