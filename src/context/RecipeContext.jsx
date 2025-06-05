@@ -12,6 +12,14 @@ export const RecipeProvider = ({ children }) => {
   const [searchIngredients, setSearchIngredients] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
+  //clear search result
+  const clearSearchData = () => { 
+    setSearchResults([]); 
+    setSearchIngredients([]); 
+    setSelectedRecipe(null); 
+    console.log("clearsearchdata");
+  };
+
   // Function to store search results
   const updateSearchResults = (recipes, ingredients) => {
     setSearchResults(recipes);
@@ -33,6 +41,9 @@ export const RecipeProvider = ({ children }) => {
     // Actions
     updateSearchResults,
     selectRecipe,
+    setSearchResults,
+    setSearchIngredients,
+    clearSearchData
   };
 
   return (

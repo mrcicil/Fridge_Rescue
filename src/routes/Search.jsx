@@ -26,6 +26,7 @@ const location = useLocation();
     if (searchResults && searchResults.length > 0) {
       setShowResults(true);
     }
+  
   }, [searchResults]);
 
   const handleSearch = async (ingredients) => {

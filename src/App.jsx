@@ -14,10 +14,11 @@ import { RecipeProvider } from './context/RecipeContext'
 function App() {
 
   return (
+    <RecipeProvider>
     <BrowserRouter>
     <AuthProvider>
-    <RecipeProvider>
-      <Header />
+    
+    <Header />
     <Routes>
     
        {/* Add redirect from root to homepage */}
@@ -44,10 +45,10 @@ function App() {
          <Route path="*" element={<ErrorPage/>}/>
 
     </Routes>
-  
-    </RecipeProvider>
-    </AuthProvider>
+        
+    </AuthProvider> 
     </BrowserRouter>
+    </RecipeProvider>
    
   )
 }
