@@ -34,7 +34,7 @@ const handleSubmit = (e) => {
       if(username == User_data[i].username && password == User_data[i].password){
       
       login({ username });
-      alert("Log in successfully. ENJOY!!!");
+      // alert("Log in successfully. ENJOY!!!");
     navigate("/search");
       break;
     }
@@ -67,7 +67,7 @@ return (
           </div>
 
           {/* Form Section */}
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="relative space-y-8">
             {/* Username Field */}
             <div>
               <label 
@@ -124,9 +124,13 @@ return (
             
             {/* Error message if wrong username or password */}
             {/* {error? (<div className="font-bold text-red-500 h-1/3"> */}
-            {error? (<div className="absolute top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm p-3 bg-red-500 text-white rounded-lg shadow-lg">
+            {/* {error? (<div className="absolute top-5 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-sm p-3 bg-red-500 text-white rounded-lg shadow-lg">
               <p>The username or password you <br></br>entered is incorrect</p>
-            </div>) : (<></>)}
+            </div>) : (<></>)} */}
+
+            {error? (<p className="font-bold text-red-500 h-1/3">
+              <p>The username or password you entered is incorrect</p>
+            </p>) : (<p><br></br></p>)}
             
             {/* Submit Button */}
             <button
