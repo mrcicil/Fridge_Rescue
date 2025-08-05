@@ -6,7 +6,12 @@ import Team from './routes/Team'
 import Header from './routes/Header'
 import Search from './routes/Search'
 import Result from './routes/Result'
+import Register from './routes/Register'
+import Confirmation from './routes/Confirmation'
 import ProtectedRoute from './routes/ProtectedRoute'
+import Profile from './routes/Profile'
+import ProfileEdit from './routes/ProfileEdit'
+import Userlist from './routes/Userlist'
 import ErrorPage from './routes/ErrorPage'
 import { AuthProvider } from './context/Authcontext'
 import { RecipeProvider } from './context/RecipeContext'
@@ -26,6 +31,7 @@ function App() {
       <Route path='/homepage' element={<Homepage/>}/>
       <Route path='/login' element={<Login></Login>}/>
       <Route path='/team' element={<Team></Team>}/>
+       <Route path='/register' element={<Register/>}/>
 
       {/* Rahmat - Add protected route so that user cant directly go to search and will be landed on login page */}
       <Route path='/search' element={
@@ -33,6 +39,13 @@ function App() {
         <Search />
          </ProtectedRoute>
          }/>
+
+         {/* Use protected route for register
+         <Route path='/register' element={
+         <ProtectedRoute>
+        <Register />
+         </ProtectedRoute>
+         }/> */}
       
       {/* TRISHA - Changed this route path so that clicking on result card leads to Caleb's detail page */}
       {/* Rahmat - Add protected route here also as noticed if user use /recipe/id they are able to bypass it as well */}
@@ -42,7 +55,11 @@ function App() {
         </ProtectedRoute>
         } />
 
-         <Route path="*" element={<ErrorPage/>}/>
+        <Route path="/confirm/:id" element={<Confirmation/>} />
+        <Route path="/profile" element={<Profile/>} />
+        <Route path="/profileEdit" element={<ProfileEdit/>} />
+        <Route path="/userlist" element={<Userlist/>} />
+        <Route path="*" element={<ErrorPage/>}/>
 
     </Routes>
         

@@ -9,11 +9,14 @@ export function AuthProvider({ children }) {
   const { clearSearchData } = useRecipeContext();
 
   const login = (userData) => {
-    localStorage.setItem("userToken", userData.username);
+    localStorage.setItem("userToken", userData.data.userName);
   };
 
   const logout = () => {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("memberType");
+    localStorage.removeItem("email");
       clearSearchData();
     navigate("/login");
   };

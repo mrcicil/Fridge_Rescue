@@ -10,16 +10,25 @@ function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { logout } = useContext(AuthContext);
   const location = useLocation();
-  
-  const navigation = !localStorage.getItem("userToken") 
+
+  const navigation = !localStorage.getItem("userName") 
+  ? [
+      { name: 'Home', href: '/homepage' },
+      { name: 'Team', href: '/team' },
+    ]
+  : localStorage.getItem("memberType") === "ADMIN"
     ? [
         { name: 'Home', href: '/homepage' },
+        { name: 'Search', href: '/search' },
         { name: 'Team', href: '/team' },
+        { name: 'Profile', href: '/profile' },
+        { name: 'Userlist', href: '/userlist' },
       ]
     : [
         { name: 'Home', href: '/homepage' },
         { name: 'Search', href: '/search' },
         { name: 'Team', href: '/team' },
+        { name: 'Profile', href: '/profile' },
       ];
 
   const isActive = (path) => location.pathname === path;
@@ -43,7 +52,7 @@ function Header() {
                 />
               </Link>
               <p className="text-sm font-bold text-gray-600 dark:text-gray-200">
-                Hi {localStorage.getItem("userToken") || "guest"}!
+                Hi {localStorage.getItem("userName") || "guest"}!
               </p>
             </div>
 
@@ -67,7 +76,7 @@ function Header() {
             {/* Login/Logout Button - Right */}
             <div className="flex-1 flex items-center justify-end">
               <div className="hidden md:block">
-                {!!localStorage.getItem("userToken") ? (
+                {!!localStorage.getItem("userName") ? (
                   <button
                     onClick={logout}
                     className="inline-flex items-center gap-1 px-4 py-2 rounded-lg
@@ -157,7 +166,7 @@ function Header() {
 
               {/* Mobile menu footer */}
               <div className="border-t border-gray-200 dark:border-gray-700 px-4 py-6">
-                {!!localStorage.getItem("userToken") ? (
+                {!!localStorage.getItem("userName") ? (
                   <button
                     onClick={() => {
                       logout();
