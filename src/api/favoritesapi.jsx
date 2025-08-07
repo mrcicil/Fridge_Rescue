@@ -4,7 +4,8 @@ const BASE_URL = 'http://localhost:8080/api/favorites';
 // Get all favorites for a member
 export const getMemberFavorites = async (memberId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/member/${memberId}`);
+    //const response = await axios.get(`${BASE_URL}/member/${memberId}`);
+    const response = await recipeApi.get(`/favorites/member/${memberId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching favorites:', error);
@@ -37,7 +38,8 @@ export const removeFromFavorites = async (memberId, favoriteId) => {
 // Update a favorite recipe
 export const updateFavorite = async (memberId, favoriteId, favoriteData) => {
   try {
-    const response = await axios.put(`${BASE_URL}/member/${memberId}/${favoriteId}`, favoriteData);
+    //const response = await axios.put(`${BASE_URL}/member/${memberId}/${favoriteId}`, favoriteData);
+    const response = await recipeApi.put(`/favorites/member/${memberId}/${favoriteId}`, favoriteData);
     return response.data;
   } catch (error) {
     console.error('Error updating favorite:', error);
@@ -66,3 +68,4 @@ export const getFavorite = async (memberId, favoriteId) => {
     throw error;
   }
 };
+

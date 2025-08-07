@@ -1,97 +1,70 @@
 // src/routes/Result.jsx
-import fridgeLogo from "../assets/fridge_rescue.png";
-import { recipe_detail } from "../search_result";
-import { recipe_detail_data } from "../recipe_detail_data";
-//import styles from "./Result.module.css"; // Import CSS Module
-import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useFavorites } from '../context/FavoritesContext';
-import { checkIsFavorite, getMemberFavorites } from '../api/favoritesapi';
-
-import {
-  getRecipeInstructions,
-  getRecipeInstructionsMock,
-} from "../api/recipesapi";
+import { getRecipe, getRecipeInstructions, checkIsFavorite } from '../api/recipesapi';
+import fridgeLogo from "../assets/fridge_rescue.png";
 
 function Result() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // Access the passed state
   const { state } = useLocation();
-
-  // Destructure the data (with optional fallback)
-  const { recipeData } = state || {};
-
+  
+  // Get recipe data from state if available
+  const [recipeData, setRecipeData] = useState(state?.recipeData || null);
   const [recipeInstructions, setRecipeInstructions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
-  const { addFavorite, removeFavorite } = useFavorites();  
+  const { addFavorite, removeFavorite } = useFavorites();
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const resultsRaw = await getRecipeInstructions(id);
-
-      const results = resultsRaw[0].steps;
-
-      if (results?.length) {
-        setRecipeInstructions(results);
-      } else {
-        setError("No instructions found");
-        setRecipeInstructions([]);
-      }
-    } catch (err) {
-      setError("Failed to load instructions");
-      setRecipeInstructions([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchMockData = () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      //const results = recipe_detail_data[0].steps;
-
-      //const jsonString = JSON.stringify(jsonData[0]); // Removes outer []
-
-      const resultsRaw = getRecipeInstructionsMock();
-      //const results = recipe_detail_data;
-
-      const results = resultsRaw;
-
-      if (results?.length) {
-        setRecipeInstructions(results);
-      } else {
-        setError("No instructions found");
-        setRecipeInstructions([]);
-      }
-    } catch (err) {
-      setError("Failed to load instructions");
-      setRecipeInstructions([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  // Fetch recipe data if not provided in state
   useEffect(() => {
-    //fetchMockData();
-    fetchData();
+    if (!recipeData && id) {
+      const fetchRecipeData = async () => {
+        setIsLoading(true);
+        try {
+          const data = await getRecipe(id);
+          setRecipeData(data);
+        } catch (err) {
+          setError("Failed to load recipe details");
+          console.error(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      fetchRecipeData();
+    }
+  }, [id, recipeData]);
+
+  // Fetch recipe instructions
+  useEffect(() => {
+    if (id) {
+      const fetchInstructions = async () => {
+        setIsLoading(true);
+        try {
+          const results = await getRecipeInstructions(id);
+          if (results && results.length > 0 && results[0].steps) {
+            setRecipeInstructions(results[0].steps);
+          } else {
+            setError("No instructions found");
+            setRecipeInstructions([]);
+          }
+        } catch (err) {
+          setError("Failed to load instructions");
+          setRecipeInstructions([]);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      fetchInstructions();
+    }
   }, [id]);
 
-  function handlePrint() {
-    window.print();
-    //the window.print() command is what is telling the browser to print the page
-  }
-
+  // Check if recipe is in favorites
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       const memberId = localStorage.getItem("userId");
@@ -106,8 +79,8 @@ function Result() {
     };
     
     checkFavoriteStatus();
-  }, [id]); 
-  
+  }, [id]);
+
   const handleFavoriteToggle = async () => {
     const memberId = localStorage.getItem("userId");
     if (!memberId) {
@@ -135,32 +108,48 @@ function Result() {
     } finally {
       setFavoriteLoading(false);
     }
-  };  
+  };
 
-  // If recipe data is not available, show loading or error
-  if (!recipeData) {
+  function handlePrint() {
+    window.print();
+  }
+
+  // Show loading state
+  if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50 py-8">
         <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center">
-          <p className="text-gray-600">Recipe data not available. Please try searching again.</p>
+          <p className="text-gray-600">Loading recipe details...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Show error state
+  if (error || !recipeData) {
+    return (
+      <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50 py-8">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center">
+          <p className="text-red-600">{error || "Recipe not found"}</p>
           <button
-            onClick={() => navigate('/search')}
+            onClick={() => navigate(-1)}
             className="mt-4 inline-block bg-gray-600 !text-white px-4 py-2 rounded-lg"
           >
-            Back to Search
+            Go Back
           </button>
         </div>
       </div>
     );
   }
 
+  // Rest of your component rendering...
   return (
     <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50 py-8">
       <div className="max-w-4xl mx-auto bg-white dark:white rounded-2xl shadow-lg p-6 md:p-8">
         {/* Header with back button and title */}
         <div className="flex items-center gap-4 mb-8">
           <button 
-            onClick={() => navigate('/search')}
+            onClick={() => navigate(-1)}
             className="inline-flex items-center justify-center p-2 rounded-lg
                      bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 
                      dark:hover:bg-gray-600 transition-colors"
@@ -260,31 +249,22 @@ function Result() {
                 </ul>
               </div>
             )}
-          </section>
 
-          {/* Equipment Section */}
-          <section className="bg-gray-50 dark:bg-gray-50 rounded-lg p-4">
-            <h2 className="text-xl font-bold text-recipe-800 dark:text-gray-800 mb-4">
-              Equipment
-            </h2>
-            {recipeInstructions && recipeInstructions.length > 0 && recipeInstructions.some(step => step.equipment && step.equipment.length > 0) ? (
-              <ul className="space-y-2">
-                {Array.from(
-                  new Map(
-                    recipeInstructions
-                      .flatMap((step) => step.equipment || [])
-                      .filter(item => item) // Filter out any undefined items
-                      .map((item) => [item.id, item])
-                  ).values()
-                ).map((equipment) => (
-                  <li key={equipment.id} className="flex items-center gap-2 text-gray-700 dark:text-gray-700">
-                    <span className="text-recipe-500">•</span>
-                    {equipment.name}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-600">No equipment information available.</p>
+            {/* If no usedIngredients or missedIngredients, show all ingredients */}
+            {(!recipeData.usedIngredients || !recipeData.missedIngredients) && recipeData.ingredients && (
+              <div className="bg-blue-50 dark:bg-blue-50 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-800 mb-3">
+                  Ingredients:
+                </h3>
+                <ul className="space-y-2">
+                  {recipeData.ingredients.map((ingredient, index) => (
+                    <li key={`ingredient-${index}`} className="flex items-center gap-2 text-blue-700 dark:text-blue-700">
+                      <span className="text-blue-500">•</span>
+                      {ingredient.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </section>
 
@@ -293,11 +273,7 @@ function Result() {
             <h2 className="text-xl font-bold text-recipe-800 dark:text-gray-800 mb-6 text-left">
               Instructions
             </h2>
-            {isLoading ? (
-              <p className="text-center text-gray-600">Loading instructions...</p>
-            ) : error ? (
-              <p className="text-center text-red-600">{error}</p>
-            ) : recipeInstructions && recipeInstructions.length > 0 ? (
+            {recipeInstructions && recipeInstructions.length > 0 ? (
               <div className="space-y-4">
                 {recipeInstructions.map((step) => (
                   <div 
@@ -340,7 +316,7 @@ function Result() {
             )}
           </section>
 
-          {/* Print Button - Matching style with other pages */}
+          {/* Print Button */}
           <div className="text-center mt-8 pb-4">
             <button
               onClick={handlePrint}

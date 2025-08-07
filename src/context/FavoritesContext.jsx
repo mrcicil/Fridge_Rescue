@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getMemberFavorites, addToFavorites, removeFromFavorites, updateFavorite } from '../api/favoritesapi';
+//import { getMemberFavorites, addToFavorites, removeFromFavorites, updateFavorite } from '../api/favoritesapi';
+import { getMemberFavorites, addToFavorites, removeFromFavorites, updateFavorite } from '../api/recipesapi';
 
 const FavoritesContext = createContext();
 

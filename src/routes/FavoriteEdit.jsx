@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useFavorites } from '../context/FavoritesContext';
-import { getFavorite } from '../api/favoritesapi';
+//import { getFavorite } from '../api/favoritesapi';
 import fridgeLogo from '../assets/fridge_rescue.png';
+import { updateFavorite, getFavorite } from '../api/recipesapi';
 
 function FavoriteEdit() {
   const { id } = useParams();
