@@ -13,8 +13,11 @@ import Profile from './routes/Profile'
 import ProfileEdit from './routes/ProfileEdit'
 import Userlist from './routes/Userlist'
 import ErrorPage from './routes/ErrorPage'
+import Favorites from './routes/Favorites'  
+import FavoriteEdit from './routes/FavoriteEdit' 
 import { AuthProvider } from './context/Authcontext'
 import { RecipeProvider } from './context/RecipeContext'
+import { FavoritesProvider } from './context/FavoritesContext' 
 
 function App() {
 
@@ -22,7 +25,7 @@ function App() {
     <RecipeProvider>
     <BrowserRouter>
     <AuthProvider>
-    
+    <FavoritesProvider>
     <Header />
     <Routes>
     
@@ -55,6 +58,19 @@ function App() {
         </ProtectedRoute>
         } />
 
+              {/* Indy - New routes for favorites */}
+              <Route path="/favorites" element={
+                <ProtectedRoute>
+                  <Favorites />
+                </ProtectedRoute>
+              } />
+               {/* Indy - New routes for favorites */}
+              <Route path="/favorites/edit/:id" element={
+                <ProtectedRoute>
+                  <FavoriteEdit />
+                </ProtectedRoute>
+              } />        
+
         <Route path="/confirm/:id" element={<Confirmation/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/profileEdit" element={<ProfileEdit/>} />
@@ -62,7 +78,7 @@ function App() {
         <Route path="*" element={<ErrorPage/>}/>
 
     </Routes>
-        
+    </FavoritesProvider>    
     </AuthProvider> 
     </BrowserRouter>
     </RecipeProvider>
