@@ -11,14 +11,13 @@ function Userlist(){
     const [errorMsg, setErrorMsg] = useState();
     const navigate = useNavigate();
 
-    useEffect(() => {
-      getUserList(localStorage.getItem("memberType"));
-    }, [])
+   
 
     const getUserList = async (type) => {
   try {
     const response = await memberAPI.get(`/user?type=${type}`);
-    setOutput(response.data);
+    const sortedUsers = [...response.data].sort((a, b) => a.id.localeCompare(b.id));
+    setOutput(sortedUsers);
     console.log(response.data);
     
   } catch (error) {
@@ -31,21 +30,19 @@ function Userlist(){
   }
 };
 
-const toggleActivity = async (type) => {
-  try {
-    const response = await memberAPI.get(`/user?type=${type}`);
-    setOutput(response.data);
-    console.log(response.data);
-    
+const deactivatePut = async (id) => {
+    try {
+    const response = await memberAPI.put(`/user/deactivate/${id}`);
+    getUserList(localStorage.getItem("memberType"));
   } catch (error) {
-    setErrorMsg(error.response.data.message);
-       const timer = setTimeout(() => {
-      navigate("/homepage");
-    }, 1800);
-    return () => clearTimeout(timer);
- 
+    console.log(error.response.data.message);
   }
 };
+
+ useEffect(() => {
+      console.log("testing");
+      getUserList(localStorage.getItem("memberType"));
+    }, [])
 
 return (
     <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50">
@@ -86,12 +83,16 @@ return (
                 <td className="border px-4 py-2">{item.activeStatus ? "Active" : "Inactive"}</td>
                 <td className="border px-4 py-2">
 
-                     <button
-                onClick={() => toggleActivity(item.id)}
+       
+
+                {localStorage.getItem("userId")==item.id ? (<></>) : (<button
+                onClick={() => deactivatePut(item.id)}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
               >
                 Action
-              </button>
+              
+              </button>)}
+                     
                 </td>
               </tr>
             ))}
