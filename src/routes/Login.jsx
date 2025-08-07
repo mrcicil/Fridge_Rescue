@@ -7,10 +7,11 @@ import memberAPI from '../api/memberapi';
 function Login(){
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);  
 
   // Rahmatapi
   const [item, setItem] = useState();
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
 
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -26,32 +27,84 @@ function Login(){
       setError(false); 
     }, 1800);
     return () => clearTimeout(timer);
-  })
+  }, [navigate, error]);
 
   // Rahmat - when user logging in
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const form = { ...item, userName: username, password: password };
-  loginPost(form);
+// const handleSubmit = (e) => {
+//   e.preventDefault();
+//   setLoading(true);
+//   setError(false);
   
-};
+//   const form = { ...item, userName: username, password: password };
+//   loginPost(form);
+  
+// };
 
-const loginPost = async (item) => {
-  try {
-    const response = await memberAPI.post(`/user/login`, item);
-    localStorage.setItem("userName", response.data.userName);
-    localStorage.setItem("userId", response.data.id);
-    localStorage.setItem("memberType", response.data.memberType);
-    localStorage.setItem("email", response.data.email);
-    navigate("/homepage");
-  } catch (error) {
-    setUsername("");
-    setPassword("");
-    setError(true);
-    setErrorMsg(error.response.data.message);
+// const loginPost = async (item) => {
+//   try {
+//     const response = await memberAPI.post(`/user/login`, item);
+//     localStorage.setItem("userName", response.data.userName);
+//     localStorage.setItem("userId", response.data.id);
+//     localStorage.setItem("memberType", response.data.memberType);
+//     localStorage.setItem("email", response.data.email);
+//     navigate("/homepage");
+//   } catch (error) {
+//     setUsername("");
+//     setPassword("");
+//     setError(true);
+//     setErrorMsg(error.response.data.message);
  
-  }
-};
+//   }
+// };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(false);
+    
+    try {
+      // Create the login payload
+      const loginData = { 
+        userName: username, 
+        password: password 
+      };
+      
+      // Make the API request
+      const response = await memberAPI.post('/user/login', loginData);
+      
+      // Check if response and data exist
+      if (response && response.data) {
+        // Store user data in localStorage
+        localStorage.setItem("userName", response.data.userName);
+        localStorage.setItem("userId", response.data.id);
+        localStorage.setItem("memberType", response.data.memberType);
+        localStorage.setItem("email", response.data.email);
+        
+        // Navigate to homepage
+        navigate("/homepage");
+      } else {
+        throw new Error("Invalid response from server");
+      }
+    } catch (err) {
+      setUsername("");
+      setPassword("");
+      setError(true);
+      
+      // Handle different types of errors
+      if (err.response && err.response.data && err.response.data.message) {
+        setErrorMsg(err.response.data.message);
+      } else if (err.message) {
+        setErrorMsg(err.message);
+      } else {
+        setErrorMsg("Login failed. Please check your connection and try again.");
+      }
+      
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 return (
     <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50">
@@ -145,8 +198,9 @@ return (
               type="submit"
               className="inline-block bg-gray-600 !text-white dark:bg-gray-600 px-6 py-3 rounded-lg font-semibold 
                          transition-all duration-300 hover:bg-gray-700 dark:hover:bg-gray-700 hover:-translate-y-0.5"
+                         disabled={loading}
             >
-              Log In
+             {loading ? "Logging in..." : "Log In"}
             </button>
               
             <button
@@ -154,6 +208,7 @@ return (
               className="inline-block bg-gray-600 !text-white dark:bg-gray-600 px-6 py-3 rounded-lg font-semibold 
                          transition-all duration-300 hover:bg-gray-700 dark:hover:bg-gray-700 hover:-translate-y-0.5"
                          onClick={() => navigate('/register')}
+                         disabled={loading}
             >
               Register
             </button>

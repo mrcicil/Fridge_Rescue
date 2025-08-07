@@ -1,16 +1,19 @@
+// src/routes/Result.jsx
 import fridgeLogo from "../assets/fridge_rescue.png";
 import { recipe_detail } from "../search_result";
 import { recipe_detail_data } from "../recipe_detail_data";
 //import styles from "./Result.module.css"; // Import CSS Module
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useFavorites } from '../context/FavoritesContext';
+import { checkIsFavorite, getMemberFavorites } from '../api/favoritesapi';
 
 import {
   getRecipeInstructions,
   getRecipeInstructionsMock,
 } from "../api/recipesapi";
 
-function Result({}) {
+function Result() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -20,10 +23,13 @@ function Result({}) {
   // Destructure the data (with optional fallback)
   const { recipeData } = state || {};
 
-
   const [recipeInstructions, setRecipeInstructions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+  const { addFavorite, removeFavorite } = useFavorites();  
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -78,12 +84,74 @@ function Result({}) {
 
   useEffect(() => {
     //fetchMockData();
-     fetchData();
+    fetchData();
   }, [id]);
 
-    function handlePrint() {
-      window.print()
-//the window.print() command is what is telling the browser to print the page
+  function handlePrint() {
+    window.print();
+    //the window.print() command is what is telling the browser to print the page
+  }
+
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      const memberId = localStorage.getItem("userId");
+      if (memberId && id) {
+        try {
+          const status = await checkIsFavorite(memberId, id);
+          setIsFavorite(status);
+        } catch (err) {
+          console.error('Error checking favorite status:', err);
+        }
+      }
+    };
+    
+    checkFavoriteStatus();
+  }, [id]); 
+  
+  const handleFavoriteToggle = async () => {
+    const memberId = localStorage.getItem("userId");
+    if (!memberId) {
+      navigate('/login');
+      return;
+    }
+    
+    setFavoriteLoading(true);
+    
+    try {
+      if (isFavorite) {
+        // Need to find the favorite ID first
+        const favorites = await getMemberFavorites(memberId);
+        const favorite = favorites.find(f => f.recipeId === id);
+        if (favorite) {
+          await removeFavorite(favorite.id);
+          setIsFavorite(false);
+        }
+      } else {
+        await addFavorite(id);
+        setIsFavorite(true);
+      }
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+    } finally {
+      setFavoriteLoading(false);
+    }
+  };  
+
+  // If recipe data is not available, show loading or error
+  if (!recipeData) {
+    return (
+      <div className="max-w-7xl mx-auto px-2 min-h-screen bg-recipe-50 py-8">
+        <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-8 text-center">
+          <p className="text-gray-600">Recipe data not available. Please try searching again.</p>
+          <button
+            onClick={() => navigate('/search')}
+            className="mt-4 inline-block bg-gray-600 !text-white px-4 py-2 rounded-lg"
+          >
+            Back to Search
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -113,6 +181,35 @@ function Result({}) {
           </h1>
         </div>
 
+        {/* Favorite Button */}
+        <div className="flex items-center justify-center mt-2 mb-4">
+          <button
+            onClick={handleFavoriteToggle}
+            disabled={favoriteLoading}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors ${
+              isFavorite 
+                ? 'bg-red-100 text-red-600 hover:bg-red-200' 
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-5 w-5 ${isFavorite ? 'text-red-600' : 'text-gray-600'}`}
+              viewBox="0 0 20 20"
+              fill={isFavorite ? 'currentColor' : 'none'}
+              stroke="currentColor"
+              strokeWidth={isFavorite ? 0 : 1.5}
+            >
+              <path
+                fillRule="evenodd"
+                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {favoriteLoading ? 'Processing...' : (isFavorite ? 'Saved to Favorites' : 'Add to Favorites')}
+          </button>
+        </div>
+
         {/* Recipe Image */}
         <div className="mb-8">
           <img
@@ -131,7 +228,7 @@ function Result({}) {
             </h2>
             
             {/* Ingredients You Have */}
-            {recipeData.usedIngredients.length > 0 && (
+            {recipeData.usedIngredients && recipeData.usedIngredients.length > 0 && (
               <div className="bg-green-50 dark:bg-green-50 rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-green-800 dark:text-green-800 mb-3">
                   Ingredients You Have:
@@ -140,7 +237,7 @@ function Result({}) {
                   {recipeData.usedIngredients.map((ingredient, index) => (
                     <li key={`used-${index}`} className="flex items-center gap-2 text-green-700 dark:text-green-700">
                       <span className="text-green-500">✓</span>
-                      {ingredient.original}
+                      {ingredient.original || ingredient.name}
                     </li>
                   ))}
                 </ul>
@@ -148,7 +245,7 @@ function Result({}) {
             )}
 
             {/* Ingredients You Need */}
-            {recipeData.missedIngredients.length > 0 && (
+            {recipeData.missedIngredients && recipeData.missedIngredients.length > 0 && (
               <div className="bg-orange-50 dark:bg-orange-50 rounded-lg p-4">
                 <h3 className="text-lg font-semibold text-orange-800 dark:text-orange-800 mb-3">
                   Ingredients You Need:
@@ -157,7 +254,7 @@ function Result({}) {
                   {recipeData.missedIngredients.map((ingredient, index) => (
                     <li key={`missed-${index}`} className="flex items-center gap-2 text-orange-700 dark:text-orange-700">
                       <span className="text-orange-500">+</span>
-                      {ingredient.original}
+                      {ingredient.original || ingredient.name}
                     </li>
                   ))}
                 </ul>
@@ -170,64 +267,77 @@ function Result({}) {
             <h2 className="text-xl font-bold text-recipe-800 dark:text-gray-800 mb-4">
               Equipment
             </h2>
-            <ul className="space-y-2">
-              {Array.from(
-                new Map(
-                  recipeInstructions
-                    .flatMap((step) => step.equipment)
-                    .map((item) => [item.id, item])
-                ).values()
-              ).map((equipment) => (
-                <li key={equipment.id} className="flex items-center gap-2 text-gray-700 dark:text-gray-700">
-                  <span className="text-recipe-500">•</span>
-                  {equipment.name}
-                </li>
-              ))}
-            </ul>
+            {recipeInstructions && recipeInstructions.length > 0 && recipeInstructions.some(step => step.equipment && step.equipment.length > 0) ? (
+              <ul className="space-y-2">
+                {Array.from(
+                  new Map(
+                    recipeInstructions
+                      .flatMap((step) => step.equipment || [])
+                      .filter(item => item) // Filter out any undefined items
+                      .map((item) => [item.id, item])
+                  ).values()
+                ).map((equipment) => (
+                  <li key={equipment.id} className="flex items-center gap-2 text-gray-700 dark:text-gray-700">
+                    <span className="text-recipe-500">•</span>
+                    {equipment.name}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-600">No equipment information available.</p>
+            )}
           </section>
 
           {/* Instructions Section */}
           <section className="space-y-6">
-            <h2 className="text-xl font-bold text-recipe-800 dark:text-white mb-6 text-left">
+            <h2 className="text-xl font-bold text-recipe-800 dark:text-gray-800 mb-6 text-left">
               Instructions
             </h2>
-            <div className="space-y-4">
-              {recipeInstructions.map((step) => (
-                <div 
-                  key={step.number} 
-                  className="bg-white dark:white text-gray-500 rounded-lg p-6 shadow-sm
-                          border border-gray-100 dark:border-gray-100"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Step Number Circle */}
-                    <div className="flex-shrink-0 w-8 h-8 bg-gray-600 dark:bg-gray-600 
-                                text-white rounded-full flex items-center justify-center 
-                                font-bold text-sm">
-                      {step.number}
-                    </div>
-                    
-                    {/* Step Content */}
-                    <div className="flex-1 text-left">
-                      <p className="text-gray-700 dark:text-gray-700 leading-relaxed">
-                        {step.step}
-                      </p>
-                      {step.length && (
-                        <p className="text-sm text-gray-500 dark:text-gray-700 mt-2 
-                                  flex items-center">
-                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" 
-                              viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" 
-                                  strokeWidth="2" 
-                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          {step.length.number} {step.length.unit}
+            {isLoading ? (
+              <p className="text-center text-gray-600">Loading instructions...</p>
+            ) : error ? (
+              <p className="text-center text-red-600">{error}</p>
+            ) : recipeInstructions && recipeInstructions.length > 0 ? (
+              <div className="space-y-4">
+                {recipeInstructions.map((step) => (
+                  <div 
+                    key={step.number} 
+                    className="bg-white dark:white text-gray-500 rounded-lg p-6 shadow-sm
+                            border border-gray-100 dark:border-gray-100"
+                  >
+                    <div className="flex items-start gap-4">
+                      {/* Step Number Circle */}
+                      <div className="flex-shrink-0 w-8 h-8 bg-gray-600 dark:bg-gray-600 
+                                  text-white rounded-full flex items-center justify-center 
+                                  font-bold text-sm">
+                        {step.number}
+                      </div>
+                      
+                      {/* Step Content */}
+                      <div className="flex-1 text-left">
+                        <p className="text-gray-700 dark:text-gray-700 leading-relaxed">
+                          {step.step}
                         </p>
-                      )}
+                        {step.length && (
+                          <p className="text-sm text-gray-500 dark:text-gray-700 mt-2 
+                                    flex items-center">
+                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" 
+                                viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" 
+                                    strokeWidth="2" 
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            {step.length.number} {step.length.unit}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-600">No instructions available for this recipe.</p>
+            )}
           </section>
 
           {/* Print Button - Matching style with other pages */}

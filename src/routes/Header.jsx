@@ -20,6 +20,7 @@ function Header() {
     ? [
         { name: 'Home', href: '/homepage' },
         { name: 'Search', href: '/search' },
+        { name: 'Favorites', href: '/favorites' }, 
         { name: 'Team', href: '/team' },
         { name: 'Profile', href: '/profile' },
         { name: 'Userlist', href: '/userlist' },
@@ -27,6 +28,7 @@ function Header() {
     : [
         { name: 'Home', href: '/homepage' },
         { name: 'Search', href: '/search' },
+        { name: 'Favorites', href: '/favorites' }, 
         { name: 'Team', href: '/team' },
         { name: 'Profile', href: '/profile' },
       ];
