@@ -28,6 +28,7 @@ function ProfileEdit(){
     if(!localStorage.getItem("userName")){
       navigate("/login")
     }
+    setMemberType(localStorage.getItem("memberType"));
 
     //Rahmat - error msg ends after 1.5s
     const timer = setTimeout(() => {
@@ -163,25 +164,23 @@ return (
               />
             </div>
 
-               {/* Member type Field */}
-            <div>
-                <label htmlFor="memberType" className="block text-lg font-medium text-gray-700 mb-3">
-                    Member Type
-                </label>
-                <select
-                    id="memberType"
-                    name="memberType"
-                    value={memberType}
-                    onChange={(e) => setMemberType(e.target.value)}
-                    required
-                    className="w-full px-6 py-4 text-lg border border-gray-300 rounded-md 
-                            focus:ring-2 focus:ring-blue-500 focus:border-blue-500
-                            transition-colors duration-200 bg-white text-gray-800"
+               {/* Member Type Field */}
+                <div>
+                <label 
+                    htmlFor="memberType" 
+                    className="block text-lg font-medium text-recipe-700 dark:text-gray-700 mb-3"
                 >
-                    <option value="">Select a member type</option>
-                    <option value="ADMIN">Admin</option>
-                    <option value="PUBLIC">Public</option>
-                </select>
+                    User Type
+                </label>
+                <div
+                    id="memberType"
+                    className="w-full px-6 py-4 text-lg border border-recipe-200 dark:border-gray-600 
+                            bg-gray-100 dark:bg-gray-700
+                            text-recipe-800 dark:text-white
+                            rounded"
+                >
+                    {memberType}
+                </div>
                 </div>
             
             {/* Error message if wrong username or password */}

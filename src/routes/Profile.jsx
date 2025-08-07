@@ -39,7 +39,8 @@ function Profile(){
   })
 
 const deactivatePut = async (id) => {
-    try {
+  if (window.confirm("Are you sure you want to deactivate?")){
+      try {
     const response = await memberAPI.put(`/user/deactivate/${id}`);
     alert(response.data);
      localStorage.removeItem("userName");
@@ -53,6 +54,7 @@ const deactivatePut = async (id) => {
     setError(true);
     setErrorMsg(error.response.data.message);
  
+  }
   }
 };
 
