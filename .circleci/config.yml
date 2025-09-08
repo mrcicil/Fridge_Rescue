@@ -28,7 +28,8 @@ jobs:
       #     command: vercel --prod --token jGCe49zfwxKCWUcIGFDgeyJ4
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd --project prj_FxhP0JB3KnNoqaU6Qt5M8qbXeH6X
+          # command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd --project prj_FxhP0JB3KnNoqaU6Qt5M8qbXeH6X
+          command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
 workflows:
   version: 2
