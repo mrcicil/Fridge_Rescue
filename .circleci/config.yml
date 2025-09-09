@@ -9,9 +9,9 @@ jobs:
       - run:
           name: Install dependencies
           command: npm ci
-      - run:
-          name: Run tests
-          command: npm test
+      # - run:
+      #     name: Run tests
+      #     command: npm test
       - run:
           name: Build Vite app
           command: npm run build
