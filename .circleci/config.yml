@@ -43,9 +43,16 @@ jobs:
       #     name: Install Vercel CLI
       #     command: npm install -g vercel
 
+      # - run:
+      #     name: Deploy to Vercel
+      #     command: npx vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
       - run:
           name: Deploy to Vercel
-          command: npx vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
+          command: npx vercel deploy --prod \
+            --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
+            --yes \
+            --confirm \
+            --prebuilt
 
 workflows:
   version: 2
