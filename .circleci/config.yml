@@ -48,11 +48,13 @@ jobs:
       #     command: npx vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
       - run:
           name: Deploy to Vercel
-          command: npx vercel deploy --prod \
+          command: |
+            npx vercel deploy --prod \
             --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
             --yes \
             --confirm \
-            --prebuilt
+            --prebuilt \
+            --org team_ZlmHAV7mELGxNF1zu3LNFURd
 
 workflows:
   version: 2
