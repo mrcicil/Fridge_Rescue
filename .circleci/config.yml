@@ -1,78 +1,85 @@
 version: 2.1
 
 jobs:
-  # build:
+  build:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Run tests
+          command: npm test
+      - run:
+          name: Build Vite app
+          command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - package.json
+            - package-lock.json
+            - node_modules
+
+  # deploy:
   #   docker:
-  #     - image: cimg/node:18.20 # CircleCI Node.js image
+  #     - image: cimg/node:18.20
   #   steps:
   #     - checkout
+  #     - attach_workspace:
+  #         at: .
+
+  #       # Install dependencies
   #     - run:
   #         name: Install dependencies
   #         command: npm install
-  #     # - run:
-  #     #     name: Run tests
-  #     #     command: npm test
+
+  #       # Build Vite app
   #     - run:
-  #         name: Build Vite app
+  #         name: Build app
   #         command: npm run build
+
   #       # Install Vercel CLI
   #     - run:
   #         name: Install Vercel CLI
   #         command: npm install -g vercel
-  #     - persist_to_workspace:
-  #         root: .
-  #         paths:
-  #           - dist
+
+  #     - run:
+  #         name: Deploy to Vercel
+  #         command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
   deploy:
     docker:
       - image: cimg/node:18.20
     steps:
-      - checkout
       - attach_workspace:
           at: .
-
-        # Install dependencies
       - run:
-          name: Install dependencies
-          command: npm install
-
-        # Build Vite app
-      - run:
-          name: Build app
-          command: npm run build
-
-        # Install Vercel CLI
-      - run:
-          name: Install Vercel CLI
-          command: npm install -g vercel
-
+          name: Install Vercel CLI locally
+          command: npm install --save-dev vercel
       - run:
           name: Deploy to Vercel
-          command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
-      # - run:
-      #     name: Deploy to Vercel
-      #     command: |
-      #       npx vercel deploy --prod \
-      #       --token jGCe49zfwxKCWUcIGFDgeyJ4 \
-      #       --yes \
-      #       --confirm \
-      #       --prebuilt \
-      #       --scope team_ZlmHAV7mELGxNF1zu3LNFURd
+          command: npx vercel deploy --prod --confirm \
+            --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
+            --org team_ZlmHAV7mELGxNF1zu3LNFURd \
+            --project prj_4fJxENznAdWlzNLO60WfRCmCtDqe \
+            --prebuilt
 
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - deploy
 # workflows:
 #   version: 2
 #   build_and_deploy:
 #     jobs:
-#       - build
-#       - deploy:
-#           requires:
-#             - build
-#           filters:
-#             branches:
-#               only: rahmat
+#       - deploy
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: rahmat
