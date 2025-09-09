@@ -50,11 +50,11 @@ jobs:
           name: Deploy to Vercel
           command: |
             npx vercel deploy --prod \
-            --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
+            --token jGCe49zfwxKCWUcIGFDgeyJ4 \
             --yes \
             --confirm \
             --prebuilt \
-            --org team_ZlmHAV7mELGxNF1zu3LNFURd
+            --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
 workflows:
   version: 2
