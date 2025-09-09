@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/node:18.17 # CircleCI Node.js image
+      - image: cimg/node:18.20 # CircleCI Node.js image
     steps:
       - checkout
       - run:
@@ -22,7 +22,7 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/node:18.17
+      - image: cimg/node:18.20
     steps:
       # - checkout
       - attach_workspace:
