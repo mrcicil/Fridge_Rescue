@@ -61,11 +61,17 @@ jobs:
           command: npm install --save-dev vercel
       - run:
           name: Deploy to Vercel
-          command: npx vercel deploy --prod --confirm \
+          command: npx vercel deploy --prod \
+            --prebuilt \
             --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
             --org team_ZlmHAV7mELGxNF1zu3LNFURd \
             --project prj_4fJxENznAdWlzNLO60WfRCmCtDqe \
-            --prebuilt
+            --confirm
+          # command: npx vercel deploy --prod --confirm \
+          #   --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
+          #   --org team_ZlmHAV7mELGxNF1zu3LNFURd \
+          #   --project prj_4fJxENznAdWlzNLO60WfRCmCtDqe \
+          #   --prebuilt
 
 # workflows:
 #   version: 2
