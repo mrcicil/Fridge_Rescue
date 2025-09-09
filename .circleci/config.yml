@@ -64,14 +64,7 @@ jobs:
           command: export VERCEL_TELEMETRY=0
       - run:
           name: Deploy to Vercel (headless)
-          command: |
-            npx vercel deploy \
-              --prod \
-              --prebuilt \
-              --token jGCe49zfwxKCWUcIGFDgeyJ4 \
-              --scope team_ZlmHAV7mELGxNF1zu3LNFURd \
-              --confirm \
-              --yes
+          command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
           # command: npx vercel deploy --prod --confirm \
           #     --token=jGCe49zfwxKCWUcIGFDgeyJ4 \
