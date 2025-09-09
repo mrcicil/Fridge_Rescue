@@ -30,7 +30,7 @@ jobs:
           name: Deploy to Vercel
           command: |
             if [ "$CIRCLE_BRANCH" = "caleb" ]; then
-              vercel vercel --prod --confirm --token YVYGnFyAtgB9fzdIsYyIdDDa --scope team_BNsySplYwrgHiBExEISTEAaZ
+              vercel --prod --confirm --token YVYGnFyAtgB9fzdIsYyIdDDa --scope team_BNsySplYwrgHiBExEISTEAaZ
 
             else
               echo "Skipping deployment: not on caleb branch (current branch: $CIRCLE_BRANCH)"
