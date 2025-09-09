@@ -1,51 +1,51 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: cimg/node:18.20 # CircleCI Node.js image
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install
-      # - run:
-      #     name: Run tests
-      #     command: npm test
-      - run:
-          name: Build Vite app
-          command: npm run build
-        # Install Vercel CLI
-      - run:
-          name: Install Vercel CLI
-          command: npm install -g vercel
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
+  # build:
+  #   docker:
+  #     - image: cimg/node:18.20 # CircleCI Node.js image
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install dependencies
+  #         command: npm install
+  #     # - run:
+  #     #     name: Run tests
+  #     #     command: npm test
+  #     - run:
+  #         name: Build Vite app
+  #         command: npm run build
+  #       # Install Vercel CLI
+  #     - run:
+  #         name: Install Vercel CLI
+  #         command: npm install -g vercel
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - dist
 
   deploy:
     docker:
       - image: cimg/node:18.20
     steps:
-      # - checkout
+      - checkout
       - attach_workspace:
           at: .
 
-        # # Install dependencies
-        # - run:
-        #     name: Install dependencies
-        #     command: npm install
+        # Install dependencies
+      - run:
+          name: Install dependencies
+          command: npm install
 
-        # # Build Vite app
-        # - run:
-        #     name: Build app
-        #     command: npm run build
+        # Build Vite app
+      - run:
+          name: Build app
+          command: npm run build
 
         # Install Vercel CLI
-      # - run:
-      #     name: Install Vercel CLI
-      #     command: npm install -g vercel
+      - run:
+          name: Install Vercel CLI
+          command: npm install -g vercel
 
       - run:
           name: Deploy to Vercel
@@ -64,10 +64,15 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: rahmat
+      - deploy
+# workflows:
+#   version: 2
+#   build_and_deploy:
+#     jobs:
+#       - build
+#       - deploy:
+#           requires:
+#             - build
+#           filters:
+#             branches:
+#               only: rahmat
