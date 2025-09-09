@@ -69,7 +69,7 @@ jobs:
               --prod \
               --prebuilt \
               --token jGCe49zfwxKCWUcIGFDgeyJ4 \
-              --org team_ZlmHAV7mELGxNF1zu3LNFURd \
+              --scope team_ZlmHAV7mELGxNF1zu3LNFURd \
               --project prj_4fJxENznAdWlzNLO60WfRCmCtDqe \
               --confirm \
               --yes
