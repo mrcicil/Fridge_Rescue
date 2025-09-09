@@ -1,33 +1,60 @@
 version: 2.1
 
 jobs:
-  deploy:
+  build:
     docker:
-      - image: cimg/node:18.20
+      - image: cimg/node:18.17 # CircleCI Node.js image
     steps:
       - checkout
-
-      # Install dependencies
       - run:
           name: Install dependencies
-          command: npm install
-
-      # Build Vite app
+          command: npm ci
       - run:
-          name: Build app
+          name: Run tests
+          command: npm test
+      - run:
+          name: Build Vite app
           command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  deploy:
+    docker:
+      - image: cimg/node:18.17
+    steps:
+      # - checkout
+      - attach_workspace:
+          at: .
+
+      # # Install dependencies
+      # - run:
+      #     name: Install dependencies
+      #     command: npm install
+
+      # # Build Vite app
+      # - run:
+      #     name: Build app
+      #     command: npm run build
 
       # Install Vercel CLI
       - run:
           name: Install Vercel CLI
           command: npm install -g vercel
 
-      # - run:
-      #     name: Deploy to Vercel
-      #     command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
+      - run:
+          name: Deploy to Vercel
+          command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
 workflows:
   version: 2
-  build-deploy:
+  build_and_deploy:
     jobs:
-      - deploy
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
