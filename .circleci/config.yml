@@ -61,4 +61,4 @@ workflows:
             - test
           filters:
             branches:
-              only: rahmat
+              only: rahmat-release
