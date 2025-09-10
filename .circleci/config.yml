@@ -50,6 +50,16 @@ jobs:
   #         name: Deploy to Vercel
   #         command: vercel --prod --confirm --token jGCe49zfwxKCWUcIGFDgeyJ4 --scope team_ZlmHAV7mELGxNF1zu3LNFURd
 
+  test:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run test
+          command: npm test
+
   deploy:
     docker:
       - image: cimg/node:18.20
@@ -82,9 +92,12 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - deploy:
+      - test:
           requires:
             - build
+      - deploy:
+          requires:
+            - test
           filters:
             branches:
               only: rahmat
