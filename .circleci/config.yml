@@ -97,9 +97,9 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - test
-          filters:
-            branches:
-              only: rahmat
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: rahmat
