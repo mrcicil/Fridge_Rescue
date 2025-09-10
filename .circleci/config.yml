@@ -54,11 +54,13 @@ jobs:
     docker:
       - image: cimg/node:18.20
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
-          name: Run test
-          command: npm test
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Run Vitest
+          command: npm test -- --run
 
   deploy:
     docker:
