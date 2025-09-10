@@ -46,7 +46,7 @@ jobs:
           command: export VERCEL_TELEMETRY=0
       - run:
           name: Deploy to Vercel (headless)
-          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_RAHMAT --scope $VERCEL_ORG_RAHMAT
+          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_INDY --scope $VERCEL_ORG_INDY
 
 workflows:
   version: 2
@@ -61,4 +61,4 @@ workflows:
             - test
           filters:
             branches:
-              only: rahmat
+              only: release
