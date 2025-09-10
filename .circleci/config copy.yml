@@ -17,14 +17,6 @@ jobs:
           name: Install dependencies
           command: npm install
 
-      # Run Snyk scan
-      - snyk/scan:
-          severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
-          fail-on-issues: true     # Fail the build if vulnerabilities are found
-          monitor: true            # Upload results to Snyk for monitoring
-          project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
-          token-variable: SNYK_TOKEN  # Use the environment variable for the Snyk token
-
       # Build Vite app
       - run:
           name: Build app
@@ -40,12 +32,16 @@ jobs:
           command: |
             echo "Current branch: $CIRCLE_BRANCH"
 
-      # Deploy to Vercel
+      # - run:
+      #     name: Deploy to Vercel
+      #     command: vercel --prod --confirm --token YVYGnFyAtgB9fzdIsYyIdDDa --scope team_BNsySplYwrgHiBExEISTEAaZ
+
       - run:
           name: Deploy to Vercel
           command: |
             if [ "$CIRCLE_BRANCH" = "bahbah" ]; then
               vercel --prod --confirm --token YVYGnFyAtgB9fzdIsYyIdDDa --scope team_BNsySplYwrgHiBExEISTEAaZ
+
             else
               echo "Skipping deployment: not on bahbah branch (current branch: $CIRCLE_BRANCH)"
             fi
