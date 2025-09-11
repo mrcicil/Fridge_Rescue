@@ -10,7 +10,7 @@ describe('Team component', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getByRole('heading', { name: /Meet Our Group/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Meet Our Team/i })).toBeInTheDocument()
     expect(screen.getByText(/committed to helping households reduce food waste/i)).toBeInTheDocument()
   })
 
