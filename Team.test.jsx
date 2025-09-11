@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Team from './src/routes/Team'
 
-describe('Team component', () => {
+describe('Team components', () => {
   test('renders the main heading and mission statement', () => {
     render(
       <MemoryRouter>
