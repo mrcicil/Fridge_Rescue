@@ -36,18 +36,20 @@ jobs:
       - run:
           name: Run Vitest
           command: npm test -- --run
-      
-      
-  scan:
-    snyk:
-      # Run Snyk scan
-      - snyk/scan:
-          severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
-          fail-on-issues: true     # Fail the build if vulnerabilities are found
-          #monitor: true            # Upload results to Snyk for monitoring
-          #project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
-          token-variable: SNYK_TOKEN  # Use the environment variable for the Snyk token
 
+  scan:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies with optionals
+          command: npm ci --include=optional
+      - run:
+          name: Run Snyk scan
+          command: npx snyk test --strict-out-of-sync=false --severity-threshold=high
+          environment:
+            SNYK_TOKEN: $SNYK_TOKEN  # Assumes env var is set in CircleCI project settings
 
   publish:
     docker:
@@ -89,6 +91,9 @@ workflows:
       - test:
           requires:
             - build
+      - scan:
+          requires:
+            - test
       - publish:
           requires:
             - test
