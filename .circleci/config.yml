@@ -6,61 +6,90 @@ orbs:
   snyk: snyk/snyk@1.5.0
 
 jobs:
-  deploy:
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t my-vite-app .
+      - run:
+          name: Save Docker image to workspace
+          command: docker save my-vite-app -o my-vite-app.tar
+      - persist_to_workspace:
+          root: .
+          paths:
+            - my-vite-app.tar
+
+  test:
     docker:
       - image: cimg/node:18.20
     steps:
       - checkout
-
-      # Install dependencies
       - run:
           name: Install dependencies
-          command: npm install
+          command: npm ci
+      - run:
+          name: Run Vitest
+          command: npm test -- --run
 
       # Run Snyk scan
       - snyk/scan:
           severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
           fail-on-issues: true     # Fail the build if vulnerabilities are found
-          #monitor: true            # Upload results to Snyk for monitoring
+          monitor: true            # Upload results to Snyk for monitoring
           project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
           token-variable: SNYK_TOKEN  # Use the environment variable for the Snyk token
 
-      # Build Vite app
+  publish:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - setup_remote_docker
+      - attach_workspace:
+          at: .
       - run:
-          name: Build app
-          command: npm run build
-
-      # Install Vercel CLI
+          name: Load Docker image
+          command: docker load -i my-vite-app.tar
       - run:
-          name: Install Vercel CLI
-          command: npm install -g vercel
-
-      - run:
-          name: Debug Environment
+          name: Push Docker image to DockerHub
           command: |
-            echo "Current branch: $CIRCLE_BRANCH"
+            echo "$DOCKERHUB_PW_RAHMAT" | docker login -u "$DOCKERHUB_RAHMAT" --password-stdin
+            docker tag my-vite-app $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+            docker push $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
 
+  deploy:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
       - run:
-          name: Install Snyk CLI
-          command: npm install -g snyk
+          name: Install Vercel CLI locally
+          command: npm install --save-dev vercel
       - run:
-          name: Run Snyk Scan
-          command: |
-            snyk test --severity-threshold=high --fail-on=upgradable
-            snyk monitor --project-name="${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"
-
-      # Deploy to Vercel
+          name: Disable telemetry
+          command: export VERCEL_TELEMETRY=0
       - run:
-          name: Deploy to Vercel
-          command: |
-            if [ "$CIRCLE_BRANCH" = "bahbah" ]; then
-              vercel --prod --confirm --token YVYGnFyAtgB9fzdIsYyIdDDa --scope team_BNsySplYwrgHiBExEISTEAaZ
-            else
-              echo "Skipping deployment: not on bahbah branch (current branch: $CIRCLE_BRANCH)"
-            fi
+          name: Deploy to Vercel (headless)
+          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_RAHMAT --scope $VERCEL_ORG_RAHMAT
 
 workflows:
   version: 2
-  build-deploy:
+  build_and_deploy:
     jobs:
-      - deploy
+      - build
+      - test:
+          requires:
+            - build
+      - publish:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - test
+            - publish
+          filters:
+            branches:
+              only: rahmat
