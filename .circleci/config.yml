@@ -32,6 +32,22 @@ jobs:
           name: Run Vitest
           command: npm test -- --run
 
+  publish:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t my-vite-app .
+      - run:
+          name: Push Docker image to DockerHub
+          command: |
+            echo "$DOCKERHUB_PW_RAHMAT" | docker login -u "$DOCKERHUB_RAHMAT" --password-stdin
+            docker tag my-vite-app $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+            docker push $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+
   deploy:
     docker:
       - image: cimg/node:18.20
@@ -45,7 +61,7 @@ jobs:
           name: Disable telemetry
           command: export VERCEL_TELEMETRY=0
       - run:
-          name: Deploy to Vercel (headless)
+          name: Deploy to Vercel
           command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_RAHMAT --scope $VERCEL_ORG_RAHMAT
 
 workflows:
@@ -56,9 +72,13 @@ workflows:
       - test:
           requires:
             - build
+      - publish:
+          requires:
+            - test
       - deploy:
           requires:
             - test
+            - publish
           filters:
             branches:
-              only: release
+              only: rahmat
