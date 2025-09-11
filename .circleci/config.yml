@@ -3,20 +3,22 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:18.20
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Build Docker image
-          command: docker build -t my-vite-app .
+          name: Install dependencies
+          command: npm ci
       - run:
-          name: Save Docker image to workspace
-          command: docker save my-vite-app -o my-vite-app.tar
+          name: Build Vite app
+          command: npm run build
       - persist_to_workspace:
           root: .
           paths:
-            - my-vite-app.tar
+            - dist
+            - package.json
+            - package-lock.json
+            - node_modules
 
   test:
     docker:
@@ -34,24 +36,24 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
+      - checkout
       - setup_remote_docker
-      - attach_workspace:
-          at: .
       - run:
-          name: Load Docker image
-          command: docker load -i my-vite-app.tar
+          name: Build Docker image
+          command: docker build -t my-vite-app .
       - run:
           name: Push Docker image to DockerHub
           command: |
-            echo "$DOCKERHUB_PW_RAHMAT" | docker login -u "$DOCKERHUB_RAHMAT" --password-stdin
-            docker tag my-vite-app $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
-            docker push $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+            echo "$DOCKERHUB_PW_INDY" | docker login -u "$DOCKERHUB_INDY" --password-stdin
+            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:latest
+            docker push $DOCKERHUB_INDY/fridge_rescue_devops:latest
 
   deploy:
     docker:
       - image: cimg/node:18.20
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Install Vercel CLI locally
           command: npm install --save-dev vercel
@@ -59,7 +61,7 @@ jobs:
           name: Disable telemetry
           command: export VERCEL_TELEMETRY=0
       - run:
-          name: Deploy to Vercel (headless)
+          name: Deploy to Vercel
           command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_INDY --scope $VERCEL_ORG_INDY
 
 workflows:
