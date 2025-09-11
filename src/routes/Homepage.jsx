@@ -124,7 +124,7 @@ function Homepage() {
       {/* Team Section */}
       <section className="text-center py-10 max-w-3xl mx-auto">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Meet the Team Behind Fridge Rescue
+          Meet the Teamo Behind Fridge Rescue
         </h2>
         <p className="text-gray-600 mb-8 text-center">
           We're passionate about reducing food waste and making cooking easier for everyone.
@@ -133,7 +133,7 @@ function Homepage() {
           to="/team" 
           className="inline-block bg-gray-600 !text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:bg-gray-700 hover:-translate-y-0.5"
         >
-          Meet Our Team
+          Meet Our Teamo
         </Link>
       </section>
     </div>
