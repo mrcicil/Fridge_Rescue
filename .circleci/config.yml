@@ -37,6 +37,9 @@ jobs:
           name: Run Vitest
           command: npm test -- --run
       
+      
+  scan:
+    snyk:
       # Run Snyk scan
       - snyk/scan:
           severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
