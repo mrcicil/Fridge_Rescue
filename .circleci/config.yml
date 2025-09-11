@@ -45,8 +45,8 @@ jobs:
           name: Push Docker image to DockerHub
           command: |
             echo "$DOCKERHUB_PW_INDY" | docker login -u "$DOCKERHUB_INDY" --password-stdin
-            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:latest
-            docker push $DOCKERHUB_INDY/fridge_rescue_devops:latest
+            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
+            docker push $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
 
   deploy:
     docker:
