@@ -1,24 +1,27 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.1
+  docker: circleci/docker@2.1.4
+  snyk: snyk/snyk@1.5.0
+
 jobs:
   build:
     docker:
-      - image: cimg/node:18.20
+      - image: cimg/base:stable
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Install dependencies
-          command: npm ci
+          name: Build Docker image
+          command: docker build -t my-vite-app .
       - run:
-          name: Build Vite app
-          command: npm run build
+          name: Save Docker image to workspace
+          command: docker save my-vite-app -o my-vite-app.tar
       - persist_to_workspace:
           root: .
           paths:
-            - dist
-            - package.json
-            - package-lock.json
-            - node_modules
+            - my-vite-app.tar
 
   test:
     docker:
@@ -31,7 +34,7 @@ jobs:
       - run:
           name: Run Vitest
           command: npm test -- --run
-      
+
       # Run Snyk scan
       - snyk/scan:
           severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
@@ -40,29 +43,28 @@ jobs:
           #project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
           token-variable: SNYK_TOKEN  # Use the environment variable for the Snyk token
 
-
   publish:
     docker:
       - image: cimg/base:stable
     steps:
-      - checkout
       - setup_remote_docker
+      - attach_workspace:
+          at: .
       - run:
-          name: Build Docker image
-          command: docker build -t my-vite-app .
+          name: Load Docker image
+          command: docker load -i my-vite-app.tar
       - run:
           name: Push Docker image to DockerHub
           command: |
-            echo "$DOCKERHUB_PW_INDY" | docker login -u "$DOCKERHUB_INDY" --password-stdin
-            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
-            docker push $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
+            echo "$DOCKERHUB_PW_RAHMAT" | docker login -u "$DOCKERHUB_RAHMAT" --password-stdin
+            docker tag my-vite-app $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+            docker push $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
 
   deploy:
     docker:
       - image: cimg/node:18.20
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: Install Vercel CLI locally
           command: npm install --save-dev vercel
@@ -70,8 +72,8 @@ jobs:
           name: Disable telemetry
           command: export VERCEL_TELEMETRY=0
       - run:
-          name: Deploy to Vercel
-          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_INDY --scope $VERCEL_ORG_INDY
+          name: Deploy to Vercel (headless)
+          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_RAHMAT --scope $VERCEL_ORG_RAHMAT
 
 workflows:
   version: 2
@@ -90,4 +92,4 @@ workflows:
             - publish
           filters:
             branches:
-              only: release
+              only: rahmat
