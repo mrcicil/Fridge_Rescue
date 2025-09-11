@@ -81,4 +81,4 @@ workflows:
             - publish
           filters:
             branches:
-              only: rahmat
+              only: release
