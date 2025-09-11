@@ -44,9 +44,9 @@ jobs:
       - run:
           name: Push Docker image to DockerHub
           command: |
-            echo "$DOCKERHUB_PW_RAHMAT" | docker login -u "$DOCKERHUB_RAHMAT" --password-stdin
-            docker tag my-vite-app $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
-            docker push $DOCKERHUB_RAHMAT/fridge_rescue_devops:latest
+            echo "$DOCKERHUB_PW_INDY" | docker login -u "$DOCKERHUB_INDY" --password-stdin
+            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:latest
+            docker push $DOCKERHUB_INDY/fridge_rescue_devops:latest
 
   deploy:
     docker:
@@ -62,7 +62,7 @@ jobs:
           command: export VERCEL_TELEMETRY=0
       - run:
           name: Deploy to Vercel
-          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_RAHMAT --scope $VERCEL_ORG_RAHMAT
+          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_INDY --scope $VERCEL_ORG_INDY
 
 workflows:
   version: 2
