@@ -39,8 +39,8 @@ jobs:
       - snyk/scan:
           severity-threshold: high  # Only fail on high-severity issues (optional: low, medium, high, critical)
           fail-on-issues: true     # Fail the build if vulnerabilities are found
-          monitor: true            # Upload results to Snyk for monitoring
-          project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
+          #monitor: true            # Upload results to Snyk for monitoring
+          #project: "${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BRANCH}"  # Optional: specify project name
           token-variable: SNYK_TOKEN  # Use the environment variable for the Snyk token
 
   publish:
