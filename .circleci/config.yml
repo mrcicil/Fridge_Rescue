@@ -1,24 +1,26 @@
 version: 2.1
 
+# Add Snyk orb at the top
+orbs:
+  snyk: snyk/snyk@2.0.2  # Replace with latest version
+
 jobs:
   build:
     docker:
-      - image: cimg/node:18.20
+      - image: cimg/base:stable
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Install dependencies
-          command: npm ci
+          name: Build Docker image
+          command: docker build -t my-vite-app .
       - run:
-          name: Build Vite app
-          command: npm run build
+          name: Save Docker image to workspace
+          command: docker save my-vite-app -o my-vite-app.tar
       - persist_to_workspace:
           root: .
           paths:
-            - dist
-            - package.json
-            - package-lock.json
-            - node_modules
+            - my-vite-app.tar
 
   test:
     docker:
@@ -32,28 +34,42 @@ jobs:
           name: Run Vitest
           command: npm test -- --run
 
+  # Add new security scan job
+  security-scan:
+    docker:
+      - image: cimg/node:18.20
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - snyk/scan:
+          fail-on-issues: false  # Set to true to fail build on vulnerabilities
+          monitor-on-build: true
+          token-variable: SNYK_TOKEN_INDY
+
   publish:
     docker:
       - image: cimg/base:stable
     steps:
-      - checkout
       - setup_remote_docker
+      - attach_workspace:
+          at: .
       - run:
-          name: Build Docker image
-          command: docker build -t my-vite-app .
+          name: Load Docker image
+          command: docker load -i my-vite-app.tar
       - run:
           name: Push Docker image to DockerHub
           command: |
             echo "$DOCKERHUB_PW_INDY" | docker login -u "$DOCKERHUB_INDY" --password-stdin
-            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
-            docker push $DOCKERHUB_INDY/fridge_rescue_devops:prod.v.1.0.2
+            docker tag my-vite-app $DOCKERHUB_INDY/fridge_rescue_devops:v.1.0.1
+            docker push $DOCKERHUB_INDY/fridge_rescue_devops:v.1.0.1
 
   deploy:
     docker:
       - image: cimg/node:18.20
     steps:
-      - attach_workspace:
-          at: .
+      - checkout
       - run:
           name: Install Vercel CLI locally
           command: npm install --save-dev vercel
@@ -61,8 +77,8 @@ jobs:
           name: Disable telemetry
           command: export VERCEL_TELEMETRY=0
       - run:
-          name: Deploy to Vercel
-          command: npx vercel ./dist --prod --confirm --token $VERCEL_TOKEN_INDY --scope $VERCEL_ORG_INDY
+          name: Deploy to Vercel (headless)
+          command: npx vercel ./dist --prod --confirm --token $$VERCEL_TOKEN_INDY --scope$$ VERCEL_ORG_INDY
 
 workflows:
   version: 2
@@ -72,13 +88,18 @@ workflows:
       - test:
           requires:
             - build
+      - security-scan:  # Add security scan job
+          requires:
+            - build
       - publish:
           requires:
             - test
+            - security-scan  # Require security scan to pass
       - deploy:
           requires:
             - test
             - publish
+            - security-scan  # Ensure security scan passes before deploy
           filters:
             branches:
               only: release
