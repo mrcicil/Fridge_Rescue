@@ -37,19 +37,32 @@ jobs:
           name: Run Vitest
           command: npm test -- --run
 
+  # scan:
+  #   docker:
+  #     - image: cimg/node:18.20
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install dependencies with optionals
+  #         command: npm ci --include=optional
+  #     - run:
+  #         name: Run Snyk scan
+  #         command: npx snyk test --strict-out-of-sync=false --severity-threshold=high
+  #         environment:
+  #           SNYK_TOKEN: $SNYK_TOKEN  # Assumes env var is set in CircleCI project settings
+
   scan:
     docker:
-      - image: cimg/node:18.20
+        - image: cimg/node:16.10
+    environment:
+        IMAGE_NAME: edisonzsq/education-space
     steps:
-      - checkout
-      - run:
-          name: Install dependencies with optionals
-          command: npm ci --include=optional
-      - run:
-          name: Run Snyk scan
-          command: npx snyk test --strict-out-of-sync=false --severity-threshold=high
-          environment:
-            SNYK_TOKEN: $SNYK_TOKEN  # Assumes env var is set in CircleCI project settings
+        - checkout
+        - setup_remote_docker      
+        - docker/check
+        - run: docker build -t $IMAGE_NAME .
+        - snyk/scan: 
+            docker-image-name: $IMAGE_NAME
 
   publish:
     docker:
